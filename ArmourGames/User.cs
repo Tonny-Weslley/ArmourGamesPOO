@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,70 +7,57 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
+
+    // A Classe User é uma generalização.
     abstract class User
     {
         // definindo as propriedades do Objeto
-        int id; // primary key
-        int[] biblioteca; //array com ID dos jogos
-        string nomeUsuario, senha;
+        string nome, login, senha;
+        ArrayList biblioteca;
         double saldo;
+        //========================
 
-        //Setters
-        private void setId(int id)
+        //getters
+        public string getNome()
         {
-            if (id > 0) { this.id = id; }
+            return this.nome;
         }
-        private void setBiblioteca(int[] biblioteca)
+        public string getLogin()
         {
-            this.biblioteca = biblioteca;
+            return this.login;
         }
-        private void setNomeUsuario(string nomeUsuario)
-        {
-            if(nomeUsuario.Length != 0) { this.nomeUsuario = nomeUsuario; }
-        }
-        private void setSenha(string senha)
-        {
-            if(senha.Length != 0) { this.senha = senha; }
-        }
-        private void setSaldo(double saldo)
-        {
-            if (saldo > 0) { this.saldo = saldo; }
-        }
-        
-        //Getters
-        public int getId()
-        {
-            return this.id;
-        }
-        public int[] getBiblioteca()
-        {
-            return this.biblioteca;
-        }
-        public string getNomeUsuario()
-        {
-            return this.nomeUsuario;
-        }
-        public string getSenha()
+        public string getsenha()
         {
             return this.senha;
+        }
+        public ArrayList getBiblioteca()
+        {
+            return this.biblioteca;
         }
         public double getSaldo()
         {
             return this.saldo;
         }
-
-        //Métodos
-        public void AlterarNome(string nome)
+        //setters
+        protected void setNome(string nome)
         {
-            if (nome.Length != 0) { this.setNomeUsuario(nome); }
+            this.nome = nome;
         }
-        public void AlterarSenha(string senha)
+        protected void setLogin(string login)
         {
-            if ((senha.Length != 0)) { this.senha = senha; }
+            this.login = login;
         }
-        public double checarSaldo()
+        protected void setSenha(string senha)
         {
-            return this.getSaldo(); 
+            this.senha = senha;
+        }
+        protected void setBiblioteca(ArrayList biblioteca)
+        {
+            this.biblioteca = biblioteca;
+        }
+        protected void setSaldo(double saldo)
+        {
+            this.saldo = saldo;
         }
     }
 }

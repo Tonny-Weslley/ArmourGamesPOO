@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    internal class Dev 
+    class Dev:User
     {
     }
 }

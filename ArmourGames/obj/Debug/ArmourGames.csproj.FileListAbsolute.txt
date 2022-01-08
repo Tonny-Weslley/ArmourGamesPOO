@@ -1,0 +1,8 @@
+D:\Code\ArmourGamesPOO\ArmourGames\bin\Debug\ArmourGames.exe.config
+D:\Code\ArmourGamesPOO\ArmourGames\bin\Debug\ArmourGames.exe
+D:\Code\ArmourGamesPOO\ArmourGames\bin\Debug\ArmourGames.pdb
+D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.AssemblyReference.cache
+D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.SuggestedBindingRedirects.cache
+D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.CoreCompileInputs.cache
+D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.exe
+D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.pdb

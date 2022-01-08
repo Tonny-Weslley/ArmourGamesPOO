@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    internal class Program
+    class Cliente:User
     {
-        static void Main(string[] args)
+
+        //Métodos
+        public void AdicionarSaldo(double valor)
         {
-
-            
-
+            this.setSaldo(this.getSaldo() + valor);
         }
+
     }
 }
