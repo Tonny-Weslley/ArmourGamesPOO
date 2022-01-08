@@ -16,6 +16,18 @@ namespace ArmourGames
         int numUser;
         //========================
 
+        //Construtor
+        public Jogo(string nome, string descricao, Dev dev, Categoria categoria, double valor)
+        {
+            if(nome.Length != 0) { this.setNome(nome); };
+            if(descricao.Length != 0) { this.setDescricao(descricao); };
+            this.setDev(dev);
+            this.setCategoria(categoria);
+            this.setValor(valor);
+            this.setNumUser(0);
+        }
+
+
         //getters
         public string getNome()
         {

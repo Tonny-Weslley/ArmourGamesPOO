@@ -6,6 +6,12 @@
         string nome;
         string descricao;
 
+        //Construtor
+        public Categoria(string nome, string descricao)
+        {
+            this.setNome(nome);
+            this.setDescricao(descricao);
+        }
         //getters
         public string getNome()
         {

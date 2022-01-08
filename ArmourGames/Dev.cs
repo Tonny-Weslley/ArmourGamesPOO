@@ -8,5 +8,14 @@ namespace ArmourGames
 {
     class Dev:User
     {
+        //construtor
+        public Dev(string nome, string login, string senha)
+        {
+           if(nome.Length != 0) { this.setNome(nome);}
+           if(login.Length != 0) { this.setLogin(login);}
+           if (senha.Length != 0) { this.setSenha(senha);}
+            this.setSaldo(0);
+
+        }
     }
 }
