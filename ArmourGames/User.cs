@@ -26,7 +26,7 @@ namespace ArmourGames
         {
             return this.login;
         }
-        public string getsenha()
+        public string getSenha()
         {
             return this.senha;
         }
