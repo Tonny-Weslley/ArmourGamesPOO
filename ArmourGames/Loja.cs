@@ -8,7 +8,7 @@ namespace ArmourGames
         ArrayList cliente = new ArrayList(), dev = new ArrayList(), jogo = new ArrayList(), movi = new ArrayList(), categoria = new ArrayList();
 
         //getters
-        public ArrayList getCLiente()
+        public ArrayList getCliente()
         {
             return this.cliente;
         }
@@ -61,7 +61,7 @@ namespace ArmourGames
 
         public void adicionarDev(Dev dev)
         {
-            this.cliente.Add(dev);
+            this.dev.Add(dev);
         }
 
         public void adicionarJogo(Jogo jogo)

@@ -16,6 +16,7 @@ namespace ArmourGames
             Loja loja = new Loja();
             loja.IniciarLoja();
 
+            
             mainMenu opMain;
             do
             {
@@ -38,7 +39,7 @@ namespace ArmourGames
                         int es = int.Parse(Console.ReadLine());
                         cadMenu esc = (cadMenu)es;
 
-                        if (esc != cadMenu.Cliente || esc != cadMenu.Dev)
+                        if (esc != cadMenu.Cliente && esc != cadMenu.Dev)
                         {
                             Console.WriteLine("Opção inexistente, redirecionando para o menu principal.");
                         }else{
@@ -58,7 +59,7 @@ namespace ArmourGames
                             }else
                             {
                                 Dev dv = new Dev(nome, login, senha);
-                                loja.adicionarDev(dv);
+                                loja.adicionarDev(dv); 
                             }
                             Console.WriteLine("Novo Usuário cadastrado com sucesso.");
                         }
