@@ -9,6 +9,17 @@ namespace ArmourGames
     class Cliente:User
     {
 
+        //construtor
+        public Cliente(string nome, string login, string senha)
+        {
+            if (nome.Length != 0) { this.setNome(nome); }
+            if (login.Length != 0) { this.setLogin(login); }
+            if (senha.Length != 0) { this.setSenha(senha); }
+            this.setSaldo(0);
+
+        }
+
+
         //Métodos
         public void AdicionarSaldo(double valor)
         {
