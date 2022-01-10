@@ -59,5 +59,19 @@ namespace ArmourGames
         {
             this.saldo = saldo;
         }
+
+        public void AlterarNome(string nome)
+        {
+            this.setNome(nome);
+        }
+
+        public void AlterarLogin(string login)
+        {
+            this.setLogin(login);
+        }
+        public void AlterarSenha(string senha)
+        {
+            this.setSenha(senha);
+        }
     }
 }

@@ -13,8 +13,9 @@ namespace ArmourGames
     {
         enum mainMenu {Login = 1, Cadastro = 2, Loja = 3, Sair = 0};//painel de opções principal.
         enum usrMenu {Cliente = 1, Dev = 2, Sair = 0};//painel de opções do Usuario tanto de login como de cadastro.
-        enum devPanel {GerirJogos = 1, ChecarTransacoes = 2, SacarSaldo = 3, GerirConta = 4, Logout = 0};//painel de opções do Desenvolvedor.
-        enum clientPanel {VerBiblioteca = 1, ChecarTransacoes = 2, AdicionarFundos = 3, GerirConta = 4, Logout = 0};//painel de opçoes do Cliente.
+        enum devPanel {GerirJogos = 1, AcessarLoja = 2, ChecarTransacoes = 3, SacarSaldo = 4, GerirConta = 5, Logout = 0};//painel de opções do Desenvolvedor.
+        enum clientPanel {VerBiblioteca = 1, AcessarLoja = 2, ChecarTransacoes = 3, AdicionarFundos = 4, GerirConta = 5, Logout = 0};//painel de opçoes do Cliente.
+        enum gestaoConta { AlterarNome = 1, AlterarLogin = 2, AlterarSenha = 3, ExcluirConta = 4, Sair = 0};//Opções de gestão do Usuario
         static void Main(string[] args)
         {
             Loja loja = new Loja(); //instância do objeto Loja.
@@ -229,7 +230,7 @@ namespace ArmourGames
                     int es = int.Parse(Console.ReadLine());
                     esdv = (devPanel)es;
 
-                    if ((int)esdv > 4 )
+                    if ((int)esdv > 5 )
                     {
                         Console.Clear();
                         Console.WriteLine("!!!Opção Inválida!!!");
@@ -249,53 +250,57 @@ namespace ArmourGames
             }
             void ClientPanel(Cliente client)
             {
-                clientPanel escl;
+                clientPanel escl = (clientPanel) 20;
                 do
                 {
-
-                    Console.Clear();//limpa a exibição do console
-                    Console.WriteLine($"Olá, {client.getNome()}    Saldo: {client.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
-                    Console.WriteLine("|======Painel de Cliente======|"); //Painel de Cliente
-                    Console.WriteLine("| 1 - Abrir Biblioteca        |"); //Painel de Cliente
-                    Console.WriteLine("| 2 - Checar Transações       |"); //Painel de Cliente
-                    Console.WriteLine("| 3 - Adicionar Fundos        |"); //Painel de Cliente
-                    Console.WriteLine("| 4 - Gerir Conta             |"); //Painel de Cliente
-                    Console.WriteLine("| 0 - LogOut                  |"); //Painel de Cliente
-                    Console.WriteLine("|=============================|"); //Painel de Cliente
-                    Console.Write("Escolha:");
-
-                    int es = int.Parse(Console.ReadLine());  //Escolha do cliente
-                    escl = (clientPanel)es;                  //Escolha do cliente
-
-                    if((int) escl > 4)
+                    if(escl != clientPanel.Logout)
                     {
-                        Console.Clear();
-                        Console.WriteLine("!!!Opção Inválida!!!");
-                        Thread.Sleep(2000);
-                    }
-                    else
-                    {
-                        switch (escl)
+                        Console.Clear();//limpa a exibição do console
+                        Console.WriteLine($"Olá, {client.getNome()}    Saldo: {client.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
+                        Console.WriteLine("|======Painel de Cliente======|"); //Painel de Cliente
+                        Console.WriteLine("| 1 - Abrir Biblioteca        |"); //Painel de Cliente
+                        Console.WriteLine("| 2 - Acessar Loja            |"); //Painel de Cliente
+                        Console.WriteLine("| 3 - Checar Transações       |"); //Painel de Cliente
+                        Console.WriteLine("| 4 - Adicionar Fundos        |"); //Painel de Cliente
+                        Console.WriteLine("| 5 - Gerir Conta             |"); //Painel de Cliente
+                        Console.WriteLine("| 0 - LogOut                  |"); //Painel de Cliente
+                        Console.WriteLine("|=============================|"); //Painel de Cliente
+                        Console.Write("Escolha:");
+
+                        int es = int.Parse(Console.ReadLine());  //Escolha do cliente
+                        escl = (clientPanel)es;                  //Escolha do cliente
+
+                        if ((int)escl > 5)
                         {
-                            case clientPanel.VerBiblioteca:
-                                BibliotecaCl(client);
-                                break;
-                            case clientPanel.AdicionarFundos:
-                                Console.Clear();
-                                double valor;
-                                Console.WriteLine("|==== Adicionando Fundos ====|");
-                                Console.Write("-> Digite o valor desejado: ");
-                                valor = double.Parse(Console.ReadLine());
-                                loja.adicionarFundos(client, valor);
-                                Console.Clear();
-                                Console.WriteLine($"{valor.ToString("C", CultureInfo.CurrentCulture)} Adicionados ao seu saldo");
-                                Thread.Sleep(2000);
-                                break;
-                            case clientPanel.GerirConta:
-                                
-                                break;
+                            Console.Clear();
+                            Console.WriteLine("!!!Opção Inválida!!!");
+                            Thread.Sleep(2000);
+                        }
+                        else
+                        {
+                            switch (escl)
+                            {
+                                case clientPanel.VerBiblioteca:
+                                    BibliotecaCl(client);
+                                    break;
+                                case clientPanel.AdicionarFundos:
+                                    Console.Clear();
+                                    double valor;
+                                    Console.WriteLine("|==== Adicionando Fundos ====|");
+                                    Console.Write("-> Digite o valor desejado: ");
+                                    valor = double.Parse(Console.ReadLine());
+                                    loja.adicionarFundos(client, valor);
+                                    Console.Clear();
+                                    Console.WriteLine($"{valor.ToString("C", CultureInfo.CurrentCulture)} Adicionados ao seu saldo");
+                                    Thread.Sleep(2000);
+                                    break;
+                                case clientPanel.GerirConta:
+                                    GerirConta(client, ref escl);
+                                    break;
+                            }
                         }
                     }
+                    
 
                 } while (escl != clientPanel.Logout);
             }
@@ -336,9 +341,166 @@ namespace ArmourGames
                 }
 
             }
-            void GerirConta(Cliente cliente)
+            void GerirConta(Cliente cliente, ref clientPanel scl)
             {
+                
+                gestaoConta slg = (gestaoConta) 20;
+                do
+                {
+                    if(slg != gestaoConta.Sair)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("|=======Gestão de Conta=======|"); //Gestão de Conta
+                        Console.WriteLine("| 1 - Alterar Nome            |"); //Gestão de Conta
+                        Console.WriteLine("| 2 - Alterar Nome de Usuário |"); //Gestão de Conta
+                        Console.WriteLine("| 3 - Alterar Senha           |"); //Gestão de Conta
+                        Console.WriteLine("| 4 - Excluir Conta           |"); //Gestão de Conta
+                        Console.WriteLine("| 0 - Sair                    |"); //Gestão de Conta
+                        Console.WriteLine("|=============================|"); //Gestão de Conta
+                        Console.Write("Escolha:");
 
+                        int es = int.Parse(Console.ReadLine());
+                        slg = (gestaoConta)es;
+
+                        if ((int)slg > 4)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("!!!Opção Inválida!!!");
+                            Thread.Sleep(2000);
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            switch (slg)
+                            {
+                                case gestaoConta.AlterarNome:
+                                    string senha, nome, login;
+                                    Console.Clear();
+                                    Console.WriteLine("|==== Alterando Nome ====|");
+                                    Console.Write("-> Confime sua senha: ");
+                                    senha = Console.ReadLine();
+                                    if (senha == cliente.getSenha())
+                                    {
+                                        Console.Write("-> Digite seu novo nome: ");
+                                        nome = Console.ReadLine();
+                                        cliente.AlterarNome(nome);
+                                        Console.Clear();
+                                        Console.WriteLine($"Seu nome foi alterado para {nome}");
+                                        Thread.Sleep(2000);
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Senha Incorreta");
+                                        Thread.Sleep(2000);
+                                        break;
+                                    }
+                                    break;
+                                case gestaoConta.AlterarLogin:
+                                    Console.Clear();
+                                    Console.WriteLine("|==== Alterando Nome de Usuário ====|");
+                                    Console.Write("-> Confime sua senha: ");
+                                    senha = Console.ReadLine();
+                                    if (senha == cliente.getSenha())
+                                    {
+                                        Console.Write("-> Digite seu novo nome de usuário: ");
+                                        login = Console.ReadLine();
+                                        cliente.AlterarLogin(login);
+                                        Console.Clear();
+                                        Console.WriteLine($"Seu nome foi alterado para {login}");
+                                        Thread.Sleep(2000);
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Senha Incorreta");
+                                        Thread.Sleep(2000);
+                                        break;
+                                    }
+                                    break;
+                                case gestaoConta.AlterarSenha:
+                                    Console.Clear();
+                                    Console.WriteLine("|==== Alterando Senha ====|");
+                                    Console.Write("-> Confime sua antiga senha: ");
+                                    senha = Console.ReadLine();
+                                    if (senha == cliente.getSenha())
+                                    {
+                                        Console.Write("-> Digite sua nova senha: ");
+                                        senha = Console.ReadLine();
+                                        cliente.AlterarSenha(senha);
+                                        Console.Clear();
+                                        Console.WriteLine($"Seu nome foi alterado para {senha}");
+                                        Thread.Sleep(2000);
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Senha Incorreta");
+                                        Thread.Sleep(2000);
+                                        break;
+                                    }
+                                    break;
+                                case gestaoConta.ExcluirConta:
+                                    Console.Clear();
+                                    Console.WriteLine("|==== Excluindo Conta ====|");
+                                    Console.Write("-> Confime sua senha: ");
+                                    senha = Console.ReadLine();
+                                    if (senha == cliente.getSenha())
+                                    {
+                                        int esx = 20;
+                                        do
+                                        {
+                                            if (esx != 0)
+                                            {
+                                                Console.Clear();
+                                                Console.WriteLine("Tenha ciencia que ao excluir a sua conta, está apagando todos os jogos da sua biblioteca e todo o seu processo em nuvem!");
+                                                Console.Write("Está certo disso?\n1 - Sim\n2 - Não\nEscolha: ");
+                                                esx = int.Parse(Console.ReadLine());
+                                                if (esx == 1 || esx == 2)
+                                                {
+                                                    switch (esx)
+                                                    {
+                                                        case 1:
+                                                            Console.Clear();
+                                                            Console.WriteLine("Apagando dos Registros :(");
+                                                            loja.excluirCLiente(cliente);
+                                                            slg = gestaoConta.Sair;
+                                                            scl = clientPanel.Logout;
+                                                            esx = 0;
+                                                            Thread.Sleep(2000);
+                                                            break;
+                                                        case 2:
+                                                            Console.Clear();
+                                                            Console.WriteLine("Abortando a Operação");
+                                                            break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("!!!Opção Inválida!!!");
+                                                    Thread.Sleep(2000);
+                                                }
+                                            }
+
+
+                                        } while (esx != 0);
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Senha Incorreta");
+                                        Thread.Sleep(2000);
+                                        break;
+                                    }
+                                    break;
+
+                            }
+                        }
+                    }
+                    
+
+                } while (slg != gestaoConta.Sair);
             }
         }
     }

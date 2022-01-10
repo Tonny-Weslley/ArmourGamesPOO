@@ -80,7 +80,10 @@ namespace ArmourGames
         {
             cliente.AdicionarFundos(valor);
         }
-
+        public void excluirCLiente(Cliente cliente)
+        {
+            this.getCliente().Remove(cliente);
+        }
 
         // (Star) -> Método Especial
         public void IniciarLoja() //inicia o objeto Loja com alguns dados experimentais.
