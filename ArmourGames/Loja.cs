@@ -83,7 +83,7 @@ namespace ArmourGames
             Categoria simulation = new Categoria("Simulação", "Jogos que imitam uma realidade.");
             Categoria rpg = new Categoria("RPG", "Jogos onde o jogador interpreta um personagem com motivações e desafios.");
             Categoria race = new Categoria("Corrida", "Jogos onde carros disputam para ver qual o mais rapido.");
-            Dev naughyDog = new Dev("NaughyDog", "NG", "dev123");
+            Dev naughyDog = new Dev("NaughtyDog", "NG", "dev123");
             Dev rockstar = new Dev("Rockstar", "RS", "dev456");
             Dev ea = new Dev("Origin", "OG", "dev789");
             Jogo thelastofus = new Jogo("The Last of Us", "Ellie e Joel entram em uma jornada em busca do laboratorio dos vaga-lumes, porém com muitos infectados no camianho", naughyDog, action, 99.50);

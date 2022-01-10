@@ -12,6 +12,8 @@ namespace ArmourGames
     {
         enum mainMenu {Login = 1, Cadastro = 2, Loja = 3, Sair = 0};//painel de opções principal.
         enum usrMenu {Cliente = 1, Dev = 2, Sair = 0};//painel de opções do Usuario tanto de login como de cadastro.
+        enum devPanel {GerirJogos = 1, ChecarTransacoes = 2, SacarSaldo = 3, GerirConta = 4, Logout = 0};//painel de opções do Desenvolvedor.
+        enum clientPanel {VerBiblioteca = 1, ChecarTransacoes = 2, AdicionarFundos = 3, GerirConta = 4, Logout = 0};//painel de opçoes do Cliente.
         static void Main(string[] args)
         {
             Loja loja = new Loja(); //instância do objeto Loja.
@@ -29,17 +31,36 @@ namespace ArmourGames
                 Console.WriteLine("|======================|"); //Menu principal da aplicação.
                 Console.Write("Escolha: ");
 
-                int op = int.Parse(Console.ReadLine()); //Escolha do usuario
-                opMain = (mainMenu)op;                  //Escolha do usuario
+                int op = int.Parse(Console.ReadLine()); //Escolha do Dev
+                opMain = (mainMenu)op;                  //Escolha do Dev
 
                 switch (opMain)//switch do menu principal
                 {
                     case mainMenu.Login: //Opção de Login
-                        Login();
+                        bool pass = false;
+                        int t = 0;
+                        Object usuario = Login(ref pass, ref t);
+                        if (pass)
+                        {
+                            switch (t)
+                            {
+                                case 0:
+                                    ClientPanel((Cliente)usuario);
+                                    break;
+                                case 1:
+                                    DevPanel((Dev)usuario);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("!!Operação Mal Sucedida!!!");
+                            Thread.Sleep(2000);
+                        }
                         break;
 
                     case mainMenu.Cadastro: //Opção de Cadastro
-                        Console.Clear();
                         Cadastrar();
                         break;
 
@@ -63,6 +84,7 @@ namespace ArmourGames
             {
                 usrMenu esc;
                 do {
+                    Console.Clear();
                     Console.WriteLine("|==========Tela de Cadastro==========|"); //Menu de Cadastro
                     Console.WriteLine("| 1 - Cadastro Como Cliente          |"); //Menu de Cadastro
                     Console.WriteLine("| 2 - Cadastro Como Desenvolvedor    |"); //Menu de Cadastro
@@ -73,7 +95,7 @@ namespace ArmourGames
                     int es = int.Parse(Console.ReadLine());
                     esc = (usrMenu)es;
 
-                    if (esc != usrMenu.Cliente && esc != usrMenu.Dev)
+                    if ((int)esc > 3)
                     {
                         Console.WriteLine("!!!Opção Inválida!!!");
                     }
@@ -91,27 +113,28 @@ namespace ArmourGames
                             senha = Console.ReadLine();
                         }
 
+                        Console.Clear();
+                        Console.WriteLine("Usuário cadastrado com sucesso");
+                        Thread.Sleep(2000);
                         switch (esc)
                         {
                             case usrMenu.Dev:
                                 Dev dev = new Dev(nome, login, senha);
                                 loja.adicionarDev(dev);
+                                DevPanel(dev);
                                 break;
                             case usrMenu.Cliente:
                                 Cliente cliente = new Cliente(nome, login, senha);
                                 loja.adicionarCliente(cliente);
+                                ClientPanel(cliente);
                                 break;
                         }
-
-                        Console.Clear();
-                        Console.WriteLine("Usuário cadastrado com sucesso");
-                        Thread.Sleep(2000);
                     }
 
                 } while (esc != usrMenu.Sair);
 
             }
-            ArrayList Login()
+            Object Login(ref bool pass, ref int t)
             {
                 Console.Clear();
                 usrMenu esl;
@@ -129,12 +152,11 @@ namespace ArmourGames
                     int es = int.Parse(Console.ReadLine());
                     esl = (usrMenu)es;
 
-                    if(esl != usrMenu.Cliente && esl != usrMenu.Dev && esl != usrMenu.Sair)
+                    if((int)esl > 3)
                     {
                         Console.Clear();
                         Console.WriteLine("!!!Opção Inválida!!!");
                         Thread.Sleep(2000);
-                        return Login();
                     }
                     else
                     {
@@ -159,51 +181,103 @@ namespace ArmourGames
                                 {
                                     if(cliente.getLogin() == login && cliente.getSenha() == senha)
                                     {
-                                        r.Add(true);
-                                        r.Add(0);
-                                        r.Add(cliente);
-                                        return r;
+                                        pass = true;
+                                        t = 0;
+                                        return cliente;
                                     }
                                 }
-
-                                r.Add(false);
-                                return r;
+                                return null;
                             case usrMenu.Dev:
                                 foreach (Dev dev in loja.getDev())
                                 {
                                     if (dev.getLogin() == login && dev.getSenha() == senha)
                                     {
-                                        r.Add(true);
-                                        r.Add(1);
-                                        r.Add(dev);
-                                        return r;
+                                        pass = true;
+                                        t = 1;
+                                        return dev;
                                     }
                                 }
-
-                                r.Add(false);
-                                return r;
+                                return null;
                             case usrMenu.Sair:
-                               
-                                r.Add(false);
-                                return r;
+                                return null; ;
                         }
-                        r.Add(false);
-                        return r;
+                        return null;
                     }
-
+                    return null;
 
 
                 } while (esl != usrMenu.Sair);
             }
             void DevPanel(Dev dev)
             {
-                Console.WriteLine($"Olá, {dev.getNome()}    Saldo:R${dev.getSaldo()}");
-                Console.WriteLine("|======Painel de Desenvolvedor======|"); //Menu de Login
-                Console.WriteLine("| 1 - Login Como Cliente          |"); //Menu de Login
-                Console.WriteLine("| 2 - Login Como Desenvolvedor    |"); //Menu de Login
-                Console.WriteLine("| 0 - Voltar Para o Menu Principal|"); //Menu de Login
-                Console.WriteLine("|=================================|"); //Menu de Login
-                Console.Write("Escolha:");
+                
+                devPanel esdv;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Olá, {dev.getNome()}    Saldo:R${dev.getSaldo()}");
+                    Console.WriteLine("|======Painel de Desenvolvedor======|"); //Painel de Desenvolvedor
+                    Console.WriteLine("| 1 - Gerir Seus Jogos              |"); //Painel de Desenvolvedor
+                    Console.WriteLine("| 2 - Checar Transações             |"); //Painel de Desenvolvedor
+                    Console.WriteLine("| 3 - Sacar Saldo                   |"); //Painel de Desenvolvedor
+                    Console.WriteLine("| 4 - Gerir Conta                   |"); //Painel de Desenvolvedor
+                    Console.WriteLine("| 0 - LogOut                        |"); //Painel de Desenvolvedor
+                    Console.WriteLine("|===================================|"); //Painel de Desenvolvedor
+                    Console.Write("Escolha:");
+
+                    int es = int.Parse(Console.ReadLine());
+                    esdv = (devPanel)es;
+
+                    if ((int)esdv > 4 )
+                    {
+                        Console.Clear();
+                        Console.WriteLine("!!!Opção Inválida!!!");
+                        Thread.Sleep(2000);
+                    }
+                    else
+                    {
+                        switch (esdv)
+                        {
+                            case devPanel.GerirJogos:
+                                break;
+                        }
+                    }
+
+
+                } while (esdv != devPanel.Logout);
+            }
+            void ClientPanel(Cliente client)
+            {
+                clientPanel escl;
+                do
+                {
+
+                    Console.Clear();//limpa a exibição do console
+                    Console.WriteLine($"Olá, {client.getNome()}    Saldo:R${client.getSaldo()}");
+                    Console.WriteLine("|======Painel de Cliente======|"); //Painel de Cliente
+                    Console.WriteLine("| 1 - Abrir Biblioteca        |"); //Painel de Cliente
+                    Console.WriteLine("| 2 - Checar Transações       |"); //Painel de Cliente
+                    Console.WriteLine("| 3 - Adicionar Fundos        |"); //Painel de Cliente
+                    Console.WriteLine("| 4 - Gerir Conta             |"); //Painel de Cliente
+                    Console.WriteLine("| 0 - LogOut                  |"); //Painel de Cliente
+                    Console.WriteLine("|=============================|"); //Painel de Cliente
+                    Console.Write("Escolha:");
+
+                    int es = int.Parse(Console.ReadLine());  //Escolha do cliente
+                    escl = (clientPanel)es;                  //Escolha do cliente
+
+                    if((int) escl > 4)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("!!!Opção Inválida!!!");
+                        Thread.Sleep(2000);
+                    }
+                    else
+                    {
+
+                    }
+
+                } while (escl != clientPanel.Logout);
             }
         }
     }

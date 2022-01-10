@@ -8,6 +8,9 @@ namespace ArmourGames
 {
     class Cliente:User
     {
+        public Cliente()
+        {
+        }
 
         //construtor
         public Cliente(string nome, string login, string senha)
