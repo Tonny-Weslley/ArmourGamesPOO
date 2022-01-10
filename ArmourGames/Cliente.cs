@@ -24,10 +24,6 @@ namespace ArmourGames
 
 
         //Métodos
-        public void AdicionarSaldo(double valor)
-        {
-            this.setSaldo(this.getSaldo() + valor);
-        }
         public void AdicionarJogo(Jogo jogo)
         {
             this.getBiblioteca().Add(jogo);

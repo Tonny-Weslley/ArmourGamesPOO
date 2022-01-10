@@ -73,7 +73,6 @@ namespace ArmourGames
         {
             this.setNome(nome);
         }
-
         public void AlterarLogin(string login)
         {
             this.setLogin(login);
@@ -82,7 +81,6 @@ namespace ArmourGames
         {
             this.setSenha(senha);
         }
-
         public void AdicionarMovimentacao(Movi movimentacao)
         {
             this.getMovimentacoes().Add(movimentacao);

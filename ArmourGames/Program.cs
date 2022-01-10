@@ -898,14 +898,25 @@ namespace ArmourGames
                                                     switch (esx)
                                                     {
                                                         case 1:
-                                                            Console.Clear();
-                                                            Console.WriteLine("Apagando dos Registros :(");
-                                                            loja.excluirDev(dev);
-                                                            slg = gestaoConta.Sair;
-                                                            scl = devPanel.Logout;
-                                                            esx = 0;
-                                                            Thread.Sleep(2000);
-                                                            break;
+                                                            if(dev.getBiblioteca().Count > 0)
+                                                            {
+                                                                Console.WriteLine("Você Possui Jogos a Venda, Contate o Administrador da plataforma");
+                                                                Thread.Sleep(2000);
+                                                                esx = 0;
+                                                                break;
+                                                            }
+                                                            else
+                                                            {
+                                                                Console.Clear();
+                                                                Console.WriteLine("Apagando dos Registros :(");
+                                                                loja.excluirDev(dev);
+                                                                slg = gestaoConta.Sair;
+                                                                scl = devPanel.Logout;
+                                                                esx = 0;
+                                                                Thread.Sleep(2000);
+                                                                break;
+                                                            }
+                                                            
                                                         case 2:
                                                             Console.Clear();
                                                             Console.WriteLine("Abortando a Operação");

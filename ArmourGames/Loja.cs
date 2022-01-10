@@ -130,7 +130,7 @@ namespace ArmourGames
             Jogo thelastofus = new Jogo("The Last of Us", "Ellie e Joel entram em uma jornada em busca do laboratorio dos vaga-lumes, porém com muitos infectados no camianho", naughyDog, action, 99.50);
             Jogo uncharted = new Jogo("Uncharted: The Nathan Drake Collection", "Nesse pacote, podemos encontrar os títulos: UNCHARTED: Drake’s Fortune, UNCHARTED 2: Among Thieves e UNCHARTED 3: Drake’s Deception.", naughyDog, action, 79.90);
             Jogo crashTB = new Jogo("Crash, the Bandicoot 4", "4° título da serie da raposa e seu arqui-rival, dr cortex", naughyDog, casual, 30.88);
-            Jogo gtav = new Jogo("GTA - V", "5° título da serie GTA, nesse jogo, encarne 3 diferentes personagens e se divirta com outros player no modo online.", rockstar, rpg, 99.99);
+            Jogo gtav = new Jogo("GTA V", "5° título da serie GTA, nesse jogo, encarne 3 diferentes personagens e se divirta com outros player no modo online.", rockstar, rpg, 99.99);
             Jogo rdr2 = new Jogo("Red Dead Redemption", "O Faroeste voltou, e agora em mundo aberto e online", rockstar, rpg, 149.90);
             Jogo bully = new Jogo("Bully", "Mesmo sendo proibído em vários paises, Bully carrega uma legião de fãs e ainda é um dos jogos mais jogados da rockstar", rockstar, rpg, 99.99);
             Jogo ts4 = new Jogo("The Sims 4", "Jogue em um mundo seu, num jogo de simulação altamente imerssivo (e com dlcs muito caras).", ea, simulation, 120);
@@ -164,12 +164,12 @@ namespace ArmourGames
             cl2.AdicionarFundos(900);
             cl3.AdicionarFundos(440);
 
-            cl1.AdicionarJogo(battlefield1);
-            cl1.AdicionarJogo(gtav);
-            cl2.AdicionarJogo(ts4);
-            cl2.AdicionarJogo(crashTB);
-            cl3.AdicionarJogo(thelastofus);
-            cl3.AdicionarJogo(uncharted);
+            this.ComprarJogo(cl1, battlefield1);
+            this.ComprarJogo(cl1, gtav);
+            this.ComprarJogo(cl2, ts4);
+            this.ComprarJogo(cl2, crashTB);
+            this.ComprarJogo(cl3, thelastofus);
+            this.ComprarJogo(cl3, uncharted);
 
             this.adicionarCliente(cl1);
             this.adicionarCliente(cl2);
