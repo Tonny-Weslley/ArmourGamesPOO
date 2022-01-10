@@ -160,6 +160,10 @@ namespace ArmourGames
             this.adicionarJogo(ea, nfsR);
             this.adicionarJogo(ea, battlefield1);
 
+            this.adicionarCliente(cl1);
+            this.adicionarCliente(cl2);
+            this.adicionarCliente(cl3);
+
             cl1.AdicionarFundos(750);
             cl2.AdicionarFundos(900);
             cl3.AdicionarFundos(440);
@@ -171,9 +175,7 @@ namespace ArmourGames
             this.ComprarJogo(cl3, thelastofus);
             this.ComprarJogo(cl3, uncharted);
 
-            this.adicionarCliente(cl1);
-            this.adicionarCliente(cl2);
-            this.adicionarCliente(cl3);
+            
         }
     }
 }

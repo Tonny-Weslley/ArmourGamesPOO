@@ -30,8 +30,7 @@ namespace ArmourGames
                 Console.WriteLine("Bem Vindo a Armour Games");
                 Console.WriteLine("|=========MENU=========|"); //Menu principal da aplicação.
                 Console.WriteLine("| Opção 1 - Login      |"); //Menu principal da aplicação.
-                Console.WriteLine("| Opção 2 - Cadastre-se|"); //Menu principal da aplicação.
-                Console.WriteLine("| Opção 3 - Ver Loja   |"); //Menu principal da aplicação.
+                Console.WriteLine("| Opção 2 - Cadastre-se|"); //Menu principal da aplicação
                 Console.WriteLine("| Opção 0 - Sair       |"); //Menu principal da aplicação.
                 Console.WriteLine("|======================|"); //Menu principal da aplicação.
                 Console.Write("Escolha: ");
