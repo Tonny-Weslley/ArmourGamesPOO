@@ -81,7 +81,7 @@ namespace ArmourGames
         }
         private void setFaturamento(double faturamento)
         {
-            this.valor = faturamento;
+            this.faturamento = faturamento;
         }
         private void setNumUser(int numUser)
         {

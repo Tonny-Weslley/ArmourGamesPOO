@@ -14,6 +14,7 @@ namespace ArmourGames
         // definindo as propriedades do Objeto
         string nome, login, senha;
         List<Jogo> biblioteca = new List<Jogo>();
+        List<Movi> movimentacoes = new List<Movi>();
         double saldo;
         //========================
 
@@ -33,6 +34,10 @@ namespace ArmourGames
         public List<Jogo> getBiblioteca()
         {
             return this.biblioteca;
+        }
+        public List<Movi> getMovimentacoes()
+        {
+            return this.movimentacoes;
         }
         public double getSaldo()
         {
@@ -55,6 +60,10 @@ namespace ArmourGames
         {
             this.biblioteca = biblioteca;
         }
+        protected void setMovimentacoes(List<Movi> movimentacoes)
+        {
+            this.movimentacoes = movimentacoes;
+        }
         protected void setSaldo(double saldo)
         {
             this.saldo = saldo;
@@ -72,6 +81,11 @@ namespace ArmourGames
         public void AlterarSenha(string senha)
         {
             this.setSenha(senha);
+        }
+
+        public void AdicionarMovimentacao(Movi movimentacao)
+        {
+            this.getMovimentacoes().Add(movimentacao);
         }
     }
 }

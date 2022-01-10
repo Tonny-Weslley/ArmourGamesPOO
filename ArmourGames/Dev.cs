@@ -17,5 +17,14 @@ namespace ArmourGames
             this.setSaldo(0);
 
         }
+        //métodos
+        public void sacarSaldo(double valor)
+        {
+            this.setSaldo(this.getSaldo() - valor);
+        }
+        public void adicionarJogo(Jogo jogo)
+        {
+            this.getBiblioteca().Add(jogo);
+        }
     }
 }

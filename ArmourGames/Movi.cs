@@ -11,28 +11,17 @@ namespace ArmourGames
     class Movi
     {
         double valor;
-        ArrayList comp; // indice 0 = Operador, indice 1 = alvo.
+        int tipo;
+        string descricao;
+        //métodos
 
-        //getters
-        public double getValor()
-        {
-            return this.valor;
-        }
-        public ArrayList getcomp()
-        {
-            return this.comp;
-        }
-        //Setters
-        private void setValor(double valor)
+        //construtor
+        public Movi(double valor, int tipo, string desc)
         {
             this.valor = valor;
+            this.tipo = tipo;
+            this.descricao = desc; 
         }
-        private void setComp(ArrayList comp)
-        {
-            this.comp = comp;
-        }
-
-        //métodos
 
     }
 }

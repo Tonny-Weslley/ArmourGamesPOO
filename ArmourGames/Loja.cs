@@ -68,9 +68,10 @@ namespace ArmourGames
             this.dev.Add(dev);
         }
 
-        public void adicionarJogo(Jogo jogo)
+        public void adicionarJogo(Dev dev, Jogo jogo)
         {
             this.jogo.Add(jogo);
+            dev.adicionarJogo(jogo);
         }
         public void adicionarCategoria(Categoria categoria)
         {
@@ -79,10 +80,28 @@ namespace ArmourGames
         public void adicionarFundos(Cliente cliente, double valor)
         {
             cliente.AdicionarFundos(valor);
+            Movi movimentacao = new Movi(valor, 1, "+ Adição de Fundos");
+            cliente.AdicionarMovimentacao(movimentacao);
+        }
+
+        public void sacarSaldo(Dev dev, double valor)
+        {
+            dev.sacarSaldo(valor);
+            Movi movimentacao = new Movi(valor, 0, "- Saque de Saldo");
+
         }
         public void excluirCLiente(Cliente cliente)
         {
             this.getCliente().Remove(cliente);
+        }
+        public void excluirDev(Dev dev)
+        {
+            this.getDev().Remove(dev);
+        }
+        public Categoria getEspecificCat(int index)
+        {
+            Categoria cat = this.getCataegoria()[index];
+            return cat;
         }
 
         // (Star) -> Método Especial
@@ -119,15 +138,15 @@ namespace ArmourGames
             this.adicionarDev(rockstar);
             this.adicionarDev(ea);
 
-            this.adicionarJogo(thelastofus);
-            this.adicionarJogo(uncharted);
-            this.adicionarJogo(crashTB);
-            this.adicionarJogo(gtav);
-            this.adicionarJogo(rdr2);
-            this.adicionarJogo(bully);
-            this.adicionarJogo(ts4);
-            this.adicionarJogo(nfsR);
-            this.adicionarJogo(battlefield1);
+            this.adicionarJogo(naughyDog, thelastofus);
+            this.adicionarJogo(naughyDog, uncharted);
+            this.adicionarJogo(naughyDog, crashTB);
+            this.adicionarJogo(rockstar, gtav);
+            this.adicionarJogo(rockstar, rdr2);
+            this.adicionarJogo(rockstar, bully);
+            this.adicionarJogo(ea, ts4);
+            this.adicionarJogo(ea, nfsR);
+            this.adicionarJogo(ea, battlefield1);
 
             cl1.AdicionarJogo(battlefield1);
             cl1.AdicionarJogo(gtav);
