@@ -28,6 +28,14 @@ namespace ArmourGames
         {
             this.setSaldo(this.getSaldo() + valor);
         }
+        public void AdicionarJogo(Jogo jogo)
+        {
+            this.getBiblioteca().Add(jogo);
+        }
+        public void AdicionarFundos(double valor)
+        {
+            this.setSaldo(this.getSaldo() + valor);
+        }
 
     }
 }

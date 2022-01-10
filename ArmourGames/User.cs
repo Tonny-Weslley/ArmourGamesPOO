@@ -13,7 +13,7 @@ namespace ArmourGames
     {
         // definindo as propriedades do Objeto
         string nome, login, senha;
-        ArrayList biblioteca;
+        List<Jogo> biblioteca = new List<Jogo>();
         double saldo;
         //========================
 
@@ -30,7 +30,7 @@ namespace ArmourGames
         {
             return this.senha;
         }
-        public ArrayList getBiblioteca()
+        public List<Jogo> getBiblioteca()
         {
             return this.biblioteca;
         }
@@ -51,7 +51,7 @@ namespace ArmourGames
         {
             this.senha = senha;
         }
-        protected void setBiblioteca(ArrayList biblioteca)
+        protected void setBiblioteca(List<Jogo> biblioteca)
         {
             this.biblioteca = biblioteca;
         }

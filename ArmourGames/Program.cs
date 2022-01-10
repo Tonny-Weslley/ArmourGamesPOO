@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -56,7 +57,7 @@ namespace ArmourGames
                         else
                         {
                             Console.Clear();
-                            Console.WriteLine("!!Operação Mal Sucedida!!!");
+                            Console.WriteLine("!!!Operação Mal Sucedida!!!");
                             Thread.Sleep(2000);
                         }
                         break;
@@ -253,7 +254,7 @@ namespace ArmourGames
                 {
 
                     Console.Clear();//limpa a exibição do console
-                    Console.WriteLine($"Olá, {client.getNome()}    Saldo:R${client.getSaldo()}");
+                    Console.WriteLine($"Olá, {client.getNome()}    Saldo: {client.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
                     Console.WriteLine("|======Painel de Cliente======|"); //Painel de Cliente
                     Console.WriteLine("| 1 - Abrir Biblioteca        |"); //Painel de Cliente
                     Console.WriteLine("| 2 - Checar Transações       |"); //Painel de Cliente
@@ -274,10 +275,70 @@ namespace ArmourGames
                     }
                     else
                     {
-
+                        switch (escl)
+                        {
+                            case clientPanel.VerBiblioteca:
+                                BibliotecaCl(client);
+                                break;
+                            case clientPanel.AdicionarFundos:
+                                Console.Clear();
+                                double valor;
+                                Console.WriteLine("|==== Adicionando Fundos ====|");
+                                Console.Write("-> Digite o valor desejado: ");
+                                valor = double.Parse(Console.ReadLine());
+                                loja.adicionarFundos(client, valor);
+                                Console.Clear();
+                                Console.WriteLine($"{valor.ToString("C", CultureInfo.CurrentCulture)} Adicionados ao seu saldo");
+                                Thread.Sleep(2000);
+                                break;
+                            case clientPanel.GerirConta:
+                                
+                                break;
+                        }
                     }
 
                 } while (escl != clientPanel.Logout);
+            }
+            void BibliotecaCl(Cliente cliente)
+            {
+                Console.Clear();
+                Console.WriteLine($"|====Biblioteca de {cliente.getNome()} ====|");
+                if(cliente.getBiblioteca().Count == 0)
+                {
+                    Console.WriteLine("(Sua Biblioteca está Vazia)");
+                }
+                else
+                {
+                    int count = 1;
+                    foreach (Jogo jogo in cliente.getBiblioteca())
+                    {
+                        Console.WriteLine($"{count} - {jogo.getNome()} -    {jogo.getCategoria().getNome()}");
+                    }
+                    Console.WriteLine("-> Pressione Enter tecla para voltar:");
+                    Console.ReadLine();
+                }
+                
+            }
+            void BibliotecaDev(Dev dev)
+            {
+                Console.WriteLine($"|====Biblioteca de {dev.getNome()}|");
+                if (dev.getBiblioteca().Count == 0)
+                {
+                    Console.WriteLine("(Sua Biblioteca está Vazia)");
+                }
+                else
+                {
+                    int count = 1;
+                    foreach (Jogo jogo in dev.getBiblioteca())
+                    {
+                        Console.WriteLine($"{count} - {jogo.getNome()}");
+                    }
+                }
+
+            }
+            void GerirConta(Cliente cliente)
+            {
+
             }
         }
     }

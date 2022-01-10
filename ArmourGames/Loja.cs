@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ArmourGames
 {
@@ -77,7 +76,10 @@ namespace ArmourGames
         {
             this.categoria.Add(categoria);
         }
-
+        public void adicionarFundos(Cliente cliente, double valor)
+        {
+            cliente.AdicionarFundos(valor);
+        }
 
 
         // (Star) -> Método Especial
@@ -100,6 +102,9 @@ namespace ArmourGames
             Jogo ts4 = new Jogo("The Sims 4", "Jogue em um mundo seu, num jogo de simulação altamente imerssivo (e com dlcs muito caras).", ea, simulation, 120);
             Jogo nfsR = new Jogo("Need for Speed Rivals", "Jogo de carro, igual todos os outros Need for Speeds, corra de carro numa cidade, aposte racha e magicamente tenha seu carro consertado passando por um posto de gasolina", ea, race, 110);
             Jogo battlefield1 = new Jogo("Battlefield 1","Volte para os tempos de primeira guerra mundial, curta um multiplayer imersivo de time contra time e tente levar o seu a vitoria.", ea, action, 225.87);
+            Cliente cl1 = new Cliente("João Teste", "jão", "123");
+            Cliente cl2 = new Cliente("Maria Teste", "may", "123");
+            Cliente cl3 = new Cliente("Joana Teste", "jojo", "123");
 
             this.adicionarCategoria(action);
             this.adicionarCategoria(casual);
@@ -121,7 +126,16 @@ namespace ArmourGames
             this.adicionarJogo(nfsR);
             this.adicionarJogo(battlefield1);
 
+            cl1.AdicionarJogo(battlefield1);
+            cl1.AdicionarJogo(gtav);
+            cl2.AdicionarJogo(ts4);
+            cl2.AdicionarJogo(crashTB);
+            cl3.AdicionarJogo(thelastofus);
+            cl3.AdicionarJogo(uncharted);
 
+            this.adicionarCliente(cl1);
+            this.adicionarCliente(cl2);
+            this.adicionarCliente(cl3);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ArmourGames
         string nome, descricao;
         Dev dev;
         Categoria categoria;
-        double valor;
+        double valor, faturamento;
         int numUser;
         //========================
 
@@ -25,6 +25,7 @@ namespace ArmourGames
             this.setCategoria(categoria);
             this.setValor(valor);
             this.setNumUser(0);
+            this.setFaturamento(0);
         }
 
 
@@ -48,6 +49,10 @@ namespace ArmourGames
         public double getValor()
         {
             return this.valor;
+        }
+        public double getFaturamento()
+        {
+            return this.faturamento;
         }
         public int getNumUser()
         {
@@ -73,6 +78,10 @@ namespace ArmourGames
         private void setValor(double valor)
         {
             this.valor = valor;
+        }
+        private void setFaturamento(double faturamento)
+        {
+            this.valor = faturamento;
         }
         private void setNumUser(int numUser)
         {
