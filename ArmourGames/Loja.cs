@@ -1,53 +1,58 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace ArmourGames
 {
     class Loja
     {
         //propriedades
-        ArrayList cliente = new ArrayList(), dev = new ArrayList(), jogo = new ArrayList(), movi = new ArrayList(), categoria = new ArrayList();
+        List<Cliente> cliente = new List<Cliente>();
+        List<Dev> dev = new List<Dev>();
+        List<Jogo> jogo = new List<Jogo>();
+        List<Movi> movi = new List<Movi>();
+        List<Categoria> categoria = new List<Categoria>();
 
         //getters
-        public ArrayList getCliente()
+        public List<Cliente> getCliente()
         {
             return this.cliente;
         }
-        public ArrayList getDev()
+        public List<Dev> getDev()
         {
             return this.dev;
         }
-        public ArrayList getJogo()
+        public List<Jogo> getJogo()
         {
             return this.jogo;
         }
-        public ArrayList getMovi()
+        public List<Movi> getMovi()
         {
             return this.movi;
         }
-        public ArrayList getCataegoria()
+        public List<Categoria> getCataegoria()
         {
             return this.categoria;
         }
         
 
         //setters
-        private void setCLiente(ArrayList cliente)
+        private void setCLiente(List<Cliente> cliente)
         {
             this.cliente = cliente;
         }
-        private void setDev(ArrayList dev)
+        private void setDev(List<Dev> dev)
         {
-            this.cliente = dev;
+            this.dev = dev;
         }
-        private void setJogo(ArrayList jogo)
+        private void setJogo(List<Jogo> jogo)
         {
-            this.cliente = jogo;
+            this.jogo = jogo;
         }
-        private void setMovi(ArrayList movi)
+        private void setMovi(List<Movi> movi)
         {
-            this.cliente = movi;
+            this.movi = movi;
         }
-        private void setCategoria(ArrayList categoria)
+        private void setCategoria(List<Categoria> categoria)
         {
             this.categoria = categoria;
         }

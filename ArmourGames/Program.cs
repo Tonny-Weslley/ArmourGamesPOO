@@ -42,6 +42,7 @@ namespace ArmourGames
                         Object usuario = Login(ref pass, ref t);
                         if (pass)
                         {
+                            pass = false;
                             switch (t)
                             {
                                 case 0:
@@ -141,7 +142,6 @@ namespace ArmourGames
 
                 do
                 {
-                    ArrayList r = new ArrayList(); // Array que vai ser retornado ao fim da operação.
                     Console.WriteLine("|==========Tela de Login==========|"); //Menu de Login
                     Console.WriteLine("| 1 - Login Como Cliente          |"); //Menu de Login
                     Console.WriteLine("| 2 - Login Como Desenvolvedor    |"); //Menu de Login
