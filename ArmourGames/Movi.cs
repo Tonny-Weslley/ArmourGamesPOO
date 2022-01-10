@@ -23,5 +23,15 @@ namespace ArmourGames
             this.descricao = desc; 
         }
 
+        public double getValor()
+        {
+            return this.valor;
+        }
+        public string getDescricao()
+        {
+            return this.descricao;
+        }
+
+
     }
 }

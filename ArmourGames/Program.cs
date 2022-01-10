@@ -18,6 +18,7 @@ namespace ArmourGames
         enum gestaoConta { AlterarNome = 1, AlterarLogin = 2, AlterarSenha = 3, ExcluirConta = 4, Sair = 0};//Opções de gestão do Usuario
         enum gestãoJogo { AlterarNome = 1, AlterarDescricao = 2, AlterarValor = 3, ExcluirJogo = 5};//Opções de gestão de Jogos
         enum gestaoJogoMenu { SelecionarJogo = 1, AdicionarNovoJogo = 2, Sair = 0}// Opções de gestão geral de Jogos
+        enum updateGame { AlterarNome = 1, AlterarDescricao = 2, AlterarCategoria = 3, AlterarPreco = 4, Sair = 0}
         static void Main(string[] args)
         {
             Loja loja = new Loja(); //instância do objeto Loja.
@@ -87,54 +88,64 @@ namespace ArmourGames
             //Métodos da aplicação
             void Cadastrar()
             {
-                usrMenu esc;
+                usrMenu esc = (usrMenu) 20;
                 do {
-                    Console.Clear();
-                    Console.WriteLine("|==========Tela de Cadastro==========|"); //Menu de Cadastro
-                    Console.WriteLine("| 1 - Cadastro Como Cliente          |"); //Menu de Cadastro
-                    Console.WriteLine("| 2 - Cadastro Como Desenvolvedor    |"); //Menu de Cadastro
-                    Console.WriteLine("| 0 - Voltar Para o Menu Principal   |"); //Menu de Cadastro
-                    Console.WriteLine("|====================================|"); //Menu de Cadastro
-                    Console.Write("Escolha:");
-
-                    int es = int.Parse(Console.ReadLine());
-                    esc = (usrMenu)es;
-
-                    if ((int)esc > 3)
+                    if(esc != usrMenu.Sair)
                     {
-                        Console.WriteLine("!!!Opção Inválida!!!");
-                    }
-                    else
-                    {
-                        string nome = null, login = null, senha = null;
-                        if (esc == usrMenu.Dev || esc == usrMenu.Cliente)
-                        {
-                            Console.WriteLine("|========== Tela de Cadastro ==========|");
-                            Console.Write("-> Digite seu nome: ");
-                            nome = Console.ReadLine();
-                            Console.Write("-> Digite seu nome de usuário: ");
-                            login = Console.ReadLine();
-                            Console.Write("-> Digite uma senha: ");
-                            senha = Console.ReadLine();
-                        }
-
                         Console.Clear();
-                        Console.WriteLine("Usuário cadastrado com sucesso");
-                        Thread.Sleep(2000);
-                        switch (esc)
+                        Console.WriteLine("|==========Tela de Cadastro==========|"); //Menu de Cadastro
+                        Console.WriteLine("| 1 - Cadastro Como Cliente          |"); //Menu de Cadastro
+                        Console.WriteLine("| 2 - Cadastro Como Desenvolvedor    |"); //Menu de Cadastro
+                        Console.WriteLine("| 0 - Voltar Para o Menu Principal   |"); //Menu de Cadastro
+                        Console.WriteLine("|====================================|"); //Menu de Cadastro
+                        Console.Write("Escolha:");
+
+                        int es = int.Parse(Console.ReadLine());
+                        esc = (usrMenu)es;
+
+                        if ((int)esc > 3)
                         {
-                            case usrMenu.Dev:
-                                Dev dev = new Dev(nome, login, senha);
-                                loja.adicionarDev(dev);
-                                DevPanel(dev);
-                                break;
-                            case usrMenu.Cliente:
-                                Cliente cliente = new Cliente(nome, login, senha);
-                                loja.adicionarCliente(cliente);
-                                ClientPanel(cliente);
-                                break;
+                            Console.WriteLine("!!!Opção Inválida!!!");
+                        }
+                        else
+                        {
+                            string nome = null, login = null, senha = null;
+                            if (esc == usrMenu.Dev || esc == usrMenu.Cliente)
+                            {
+                                Console.WriteLine("|========== Tela de Cadastro ==========|");
+                                Console.Write("-> Digite seu nome: ");
+                                nome = Console.ReadLine();
+                                Console.Write("-> Digite seu nome de usuário: ");
+                                login = Console.ReadLine();
+                                Console.Write("-> Digite uma senha: ");
+                                senha = Console.ReadLine();
+
+                                switch (esc)
+                                {
+                                    case usrMenu.Dev:
+                                        Dev dev = new Dev(nome, login, senha);
+                                        esc = usrMenu.Sair;
+                                        loja.adicionarDev(dev);
+                                        DevPanel(dev);
+                                        break;
+                                    case usrMenu.Cliente:
+                                        Cliente cliente = new Cliente(nome, login, senha);
+                                        loja.adicionarCliente(cliente);
+                                        esc = usrMenu.Sair;
+                                        ClientPanel(cliente);
+                                        break;
+                                }
+                                if(esc != usrMenu.Sair)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("Usuário cadastrado com sucesso");
+                                    Thread.Sleep(2000);
+                                }
+                                
+                            }
                         }
                     }
+                    
 
                 } while (esc != usrMenu.Sair);
 
@@ -224,9 +235,10 @@ namespace ArmourGames
                         Console.WriteLine($"Olá, {dev.getNome()}    Saldo: {dev.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
                         Console.WriteLine("|======Painel de Desenvolvedor======|"); //Painel de Desenvolvedor
                         Console.WriteLine("| 1 - Gerir Seus Jogos              |"); //Painel de Desenvolvedor
-                        Console.WriteLine("| 2 - Checar Transações             |"); //Painel de Desenvolvedor
-                        Console.WriteLine("| 3 - Sacar Saldo                   |"); //Painel de Desenvolvedor
-                        Console.WriteLine("| 4 - Gerir Conta                   |"); //Painel de Desenvolvedor
+                        Console.WriteLine("| 2 - Ver Loja                      |"); //Painel de Desenvolvedor
+                        Console.WriteLine("| 3 - Checar Transações             |"); //Painel de Desenvolvedor
+                        Console.WriteLine("| 4 - Sacar Saldo                   |"); //Painel de Desenvolvedor
+                        Console.WriteLine("| 5 - Gerir Conta                   |"); //Painel de Desenvolvedor
                         Console.WriteLine("| 0 - LogOut                        |"); //Painel de Desenvolvedor
                         Console.WriteLine("|===================================|"); //Painel de Desenvolvedor
                         Console.Write("Escolha:");
@@ -246,6 +258,19 @@ namespace ArmourGames
                             {
                                 case devPanel.GerirJogos:
                                     GerirJogos(dev);
+                                    break;
+                                case devPanel.AcessarLoja:
+                                    VerLojaDev();
+                                    break;
+                                case devPanel.ChecarTransacoes:
+                                    Console.Clear();
+                                    Console.WriteLine("|=== Transações ===|");
+                                    foreach (Movi movi in dev.getMovimentacoes())
+                                    {
+                                        Console.WriteLine($"{movi.getDescricao()} : {movi.getValor().ToString("C", CultureInfo.CurrentCulture)}");
+                                    }
+                                    Console.WriteLine("Clique Enter Para voltar:");
+                                    Console.ReadLine();
                                     break;
                                 case devPanel.SacarSaldo:
                                     double valor;
@@ -324,6 +349,19 @@ namespace ArmourGames
                                     Console.WriteLine($"{valor.ToString("C", CultureInfo.CurrentCulture)} Adicionados ao seu saldo");
                                     Thread.Sleep(2000);
                                     break;
+                                case clientPanel.AcessarLoja:
+                                    AcessarLoja(client);
+                                    break;
+                                case clientPanel.ChecarTransacoes:
+                                    Console.Clear();
+                                    Console.WriteLine("|=== Transações ===|");
+                                    foreach (Movi movi in client.getMovimentacoes())
+                                    {
+                                        Console.WriteLine($"{movi.getDescricao()} : {movi.getValor().ToString("C", CultureInfo.CurrentCulture)}");
+                                    }
+                                    Console.WriteLine("Clique Enter Para voltar:");
+                                    Console.ReadLine();
+                                    break;
                                 case clientPanel.GerirConta:
                                     GerirConta(client, ref escl);
                                     break;
@@ -332,7 +370,7 @@ namespace ArmourGames
                     }
                     
 
-                } while (escl != clientPanel.Logout);
+                } while (escl != clientPanel.Logout); 
             }
             void BibliotecaCl(Cliente cliente)
             {
@@ -349,7 +387,7 @@ namespace ArmourGames
                     {
                         Console.WriteLine($"{count} - {jogo.getNome()} -    {jogo.getCategoria().getNome()}");
                     }
-                    Console.WriteLine("-> Pressione Enter tecla para voltar:");
+                    Console.WriteLine("-> Pressione Enter para voltar:");
                     Console.ReadLine();
                 }
                 
@@ -371,18 +409,19 @@ namespace ArmourGames
                         int count = 0;
                         foreach (Jogo jogo in dev.getBiblioteca())
                         {
-                            Console.WriteLine($"|{count + 1}|{jogo.getNome()}|{jogo.getNumUser()}|{jogo.getValor()}|{jogo.getFaturamento()}|");
+                            Console.WriteLine($"|{count + 1} - {jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getFaturamento().ToString("C", CultureInfo.CurrentCulture)}|");
                             count++;
                         }
                     }
-                    Console.WriteLine("Selecione uma opção: 1 - Adicionar Jogo | 2 - Selecionar jogo | 3 - Voltar ao Menu");
+                    Console.WriteLine("Selecione uma opção: 1 - Selecionar jogo | 2 - Adicionar Jogo | 0 - Voltar ao Menu");
+                    Console.Write("Selecionar: ");
                     int es = int.Parse(Console.ReadLine());
                     sljg = (gestaoJogoMenu)es;
 
-                    if((int)sljg > 2)
+                    if((int)sljg > 3)
                     {
                         Console.Clear();
-                        Console.WriteLine("Operação Invalida");
+                        Console.WriteLine("!!!Operação Inválida!!!");
                         Thread.Sleep(2000);
                     }
                     else
@@ -399,15 +438,17 @@ namespace ArmourGames
                                 nome = Console.ReadLine();
                                 Console.Write("Descreva seu jogo: ");
                                 desc = Console.ReadLine();
-                                Console.WriteLine("Quanto Custa o seu jogo: ");
+                                Console.Write("Quanto Custa o seu jogo: ");
                                 valor = double.Parse(Console.ReadLine());
                                 Console.WriteLine("Escolha uma categoria para o seu jogo:");
                                 int index = 0;
                                 foreach(Categoria categoria in loja.getCataegoria())
                                 {
                                     Console.WriteLine($"{index + 1} - {categoria.getNome()}");
+                                    index++;
                                 }
-                                cat = loja.getEspecificCat(index - 1);
+                                int i = int.Parse(Console.ReadLine());
+                                cat = loja.getEspecificCat(i-1);
 
                                 Jogo j = new Jogo(nome, desc, dev, cat, valor);
 
@@ -433,6 +474,142 @@ namespace ArmourGames
                                     Console.WriteLine("Abortando operação");
                                     Thread.Sleep(2000);
                                 }
+
+                                break;
+                            case gestaoJogoMenu.SelecionarJogo:
+                                Console.Write("Qual o indice do jogo que você quer selecionar: ");
+                                int indice = int.Parse(Console.ReadLine());
+                                if (indice > dev.getBiblioteca().Count)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("!!!Indice Inexistente!!!");
+                                    Thread.Sleep(2000);
+                                }
+                                else
+                                {
+                                    updateGame  slup;
+                                    do
+                                    {
+                                        Jogo jogo = dev.getEspecificJogo(indice - 1);
+                                        //resgatando o indice do jogo na biblioteca;
+                                        int indiB = loja.getEspecificJogoIndice(jogo);
+                                        Console.Clear();
+                                        Console.WriteLine($"|===Editando Preferencias do Jogo {jogo.getNome()}===|");
+                                        Console.WriteLine("| 1 - Alterar Nome do Jogo          |");
+                                        Console.WriteLine("| 2 - Alterar Descrição             |");
+                                        Console.WriteLine("| 3 - Alterar Categoria             |");
+                                        Console.WriteLine("| 4 - Alterar preço                 |");
+                                        Console.WriteLine("| 0 - Sair                          |");
+                                        Console.WriteLine("|===================================|");
+                                        Console.Write("Escolha: ");
+
+                                        int esc = int.Parse(Console.ReadLine());
+                                        slup = (updateGame)esc;
+
+
+                                        switch (slup){
+                                            case updateGame.AlterarNome:
+                                                string senha, newnome;
+                                                Console.WriteLine("|==== Alterando Nome ====|");
+                                                Console.Write("-> Confime sua senha: ");
+                                                senha = Console.ReadLine();
+                                                if (senha == dev.getSenha())
+                                                {
+                                                    Console.Write("-> Novo nome: ");
+                                                    newnome = Console.ReadLine();
+                                                    dev.getBiblioteca()[indice - 1].AlterarNome(newnome);
+                                                    loja.getJogo()[indiB].AlterarNome(newnome);
+                                                    Console.Clear();
+                                                    Console.WriteLine($"Nome alterado para {newnome}");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Senha Incorreta");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                break;
+                                            case updateGame.AlterarDescricao:
+                                                string descricao;
+                                                Console.WriteLine("|==== Alterando descrição ====|");
+                                                Console.Write("-> Confime sua senha: ");
+                                                senha = Console.ReadLine();
+                                                if (senha == dev.getSenha())
+                                                {
+                                                    Console.Write("-> Nova descrição: ");
+                                                    descricao = Console.ReadLine();
+                                                    dev.getBiblioteca()[indice - 1].AlterarDesc(descricao);
+                                                    loja.getJogo()[indiB].AlterarDesc(descricao);
+                                                    Console.Clear();
+                                                    Console.WriteLine($"Descrição alterada para: {descricao}");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Senha Incorreta");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                break;
+                                            case updateGame.AlterarPreco:
+                                                double preco;
+                                                Console.WriteLine("|==== Alterando preço ====|");
+                                                Console.Write("-> Confime sua senha: ");
+                                                senha = Console.ReadLine();
+                                                if (senha == dev.getSenha())
+                                                {
+                                                    Console.Write("-> Novo Preço: ");
+                                                    preco = double.Parse(Console.ReadLine());
+                                                    dev.getBiblioteca()[indice - 1].AlterarPreco(preco);
+                                                    loja.getJogo()[indiB].AlterarPreco(preco);
+                                                    Console.Clear();
+                                                    Console.WriteLine($"Preço alterado para {preco.ToString("C", CultureInfo.CurrentCulture)}");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Senha Incorreta");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                break;
+                                            case updateGame.AlterarCategoria:
+                                                Categoria newcategoria;
+                                                Console.WriteLine("|==== Alterando Categoria ====|");
+                                                Console.Write("-> Confime sua senha: ");
+                                                senha = Console.ReadLine();
+                                                if (senha == dev.getSenha())
+                                                {
+                                                    Console.WriteLine("Escolha uma nova categoria para o seu jogo:");
+                                                    index = 0;
+                                                    foreach (Categoria categoria in loja.getCataegoria())
+                                                    {
+                                                        Console.WriteLine($"{index + 1} - {categoria.getNome()}");
+                                                    }
+                                                    Console.Write("Escolha: ");
+                                                    int ind = int.Parse(Console.ReadLine());
+                                                    newcategoria = loja.getEspecificCat(ind - 1);
+                                                    dev.getBiblioteca()[indice - 1].AlterarCategoria(newcategoria);
+                                                    loja.getJogo()[indiB].AlterarCategoria(newcategoria);
+                                                    Console.Clear();
+                                                    Console.WriteLine($"Categoria alterada para {newcategoria.getNome()}");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Senha Incorreta");
+                                                    Thread.Sleep(2000);
+                                                }
+                                                break;
+                                        }
+
+                                    } while (slup != updateGame.Sair);
+                                    
+
+                                }
+                                
 
                                 break;
                         }
@@ -759,6 +936,133 @@ namespace ArmourGames
                         }
                     }
                 } while (slg != gestaoConta.Sair);
+            }
+            void VerLojaDev()
+            {
+                int indice;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("|      Index       |    Nome    |   Valor   |");
+                    int index = 0;
+                    foreach (Jogo jogo in loja.getJogo())
+                    {
+                        Console.WriteLine($"{index + 1} - {jogo.getNome()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)}");
+                        index++;
+                    }
+                    Console.Write("Escola um jogo para ispecionar (0 - para voltar ao menu de desenvolvedor): ");
+                    indice = int.Parse(Console.ReadLine());
+                    if(indice > loja.getJogo().Count || indice <= 0 )
+                    {
+                        if(indice != 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("!!!Indice Inexistente!!!");
+                            Thread.Sleep(2000);
+                        }
+                        
+                    }
+                    else
+                    {
+                        Jogo jogo = loja.getEspecificJogo(indice - 1);
+                        Console.Clear();
+                        Console.WriteLine($"|      Nome       |    N° de Jogadores |   Valor   |   Desenvolvedor   |");
+                        Console.WriteLine($"|{jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getDev().getNome()}|");
+                        Console.WriteLine("Pressione Enter Para voltar");
+                        Console.ReadLine();
+                    }
+                } while (indice != 0);
+                
+            }
+            void AcessarLoja(Cliente cliente)
+            {
+                int indice;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("|      Index       |    Nome    |    Categoria   |   Valor   |");
+                    int index = 0;
+                    foreach (Jogo jogo in loja.getJogo())
+                    {
+                        Console.WriteLine($"{index + 1} - {jogo.getNome()} - {jogo.getCategoria().getNome()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)}");
+                        index++;
+                    }
+                    Console.Write("Escola um jogo para ispecionar (0 - para voltar ao menu de Cliente): ");
+                    indice = int.Parse(Console.ReadLine());
+
+                    if (indice > loja.getJogo().Count || indice <= 0)
+                    {
+                        if (indice != 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("!!!Indice Inexistente!!!");
+                            Thread.Sleep(2000);
+                        }
+                    }
+                    else
+                    {
+                        int op = 20;
+                        do
+                        {
+                            if(op != 0)
+                            {
+                                Console.Clear();
+                                Jogo jogo = loja.getEspecificJogo(indice - 1);
+                                Console.WriteLine($"|      Nome       |    N° de Jogadores |   Valor   |   Desenvolvedor   |");
+                                Console.WriteLine($"|{jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getDev().getNome()}|");
+                                Console.WriteLine("Selecione uma opção:\n1 - Comprar\n0 - voltar");
+                                Console.Write("Selecione: ");
+                                op = int.Parse(Console.ReadLine());
+                                if (op != 1 && op != 0)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("!!!Opção Inválida!!!");
+                                    Thread.Sleep(2000);
+                                }
+                                else
+                                {
+                                    if (op != 0)
+                                    {
+                                        if (cliente.getSaldo() < jogo.getValor())
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine("Saldo insuficiente, adicione fundos a sua carteira");
+                                            Thread.Sleep(2000);
+                                        }
+                                        else
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine("|=== Compra de Jogo ===|");
+                                            Console.WriteLine($"Saldo atual: {cliente.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
+                                            Console.WriteLine($"Valor do jogo: {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)}");
+                                            Console.WriteLine($"Saldo restante: {(cliente.getSaldo() - jogo.getValor()).ToString("C", CultureInfo.CurrentCulture)}");
+                                            Console.Write("-> Confirmar compra: \n 1 - sim\n 2 - não\nEscolha: ");
+                                            int confirma = int.Parse(Console.ReadLine());
+                                            if (confirma == 1)
+                                            {
+                                                loja.ComprarJogo(cliente, jogo);
+                                                Console.Clear();
+                                                Console.WriteLine("Jogo Adicionado a sua Biblioteca");
+                                                Thread.Sleep(2000);
+                                                op = 0;
+                                            }
+                                            else
+                                            {
+                                                Console.Clear();
+                                                Console.WriteLine("Abortando Operação");
+                                                Thread.Sleep(2000);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        } while (op != 0);
+                        
+
+                    }
+
+                } while (indice != 0);
             }
         }
     }

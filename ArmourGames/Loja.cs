@@ -8,7 +8,6 @@ namespace ArmourGames
         List<Cliente> cliente = new List<Cliente>();
         List<Dev> dev = new List<Dev>();
         List<Jogo> jogo = new List<Jogo>();
-        List<Movi> movi = new List<Movi>();
         List<Categoria> categoria = new List<Categoria>();
 
         //getters
@@ -23,10 +22,6 @@ namespace ArmourGames
         public List<Jogo> getJogo()
         {
             return this.jogo;
-        }
-        public List<Movi> getMovi()
-        {
-            return this.movi;
         }
         public List<Categoria> getCataegoria()
         {
@@ -47,10 +42,7 @@ namespace ArmourGames
         {
             this.jogo = jogo;
         }
-        private void setMovi(List<Movi> movi)
-        {
-            this.movi = movi;
-        }
+
         private void setCategoria(List<Categoria> categoria)
         {
             this.categoria = categoria;
@@ -86,8 +78,10 @@ namespace ArmourGames
 
         public void sacarSaldo(Dev dev, double valor)
         {
-            dev.sacarSaldo(valor);
+            int indexDev = this.getDev().IndexOf(dev);
+            this.getDev()[indexDev].adicionarSaldo(valor);
             Movi movimentacao = new Movi(valor, 0, "- Saque de Saldo");
+            this.getDev()[indexDev].AdicionarMovimentacao(movimentacao);
 
         }
         public void excluirCLiente(Cliente cliente)
@@ -103,7 +97,25 @@ namespace ArmourGames
             Categoria cat = this.getCataegoria()[index];
             return cat;
         }
-
+        public Jogo getEspecificJogo(int i)
+        {
+            return this.getJogo()[i];
+        }
+        public int getEspecificJogoIndice(Jogo jogo)
+        {
+            return this.getJogo().IndexOf(jogo);
+        }
+        public void ComprarJogo(Cliente cliente, Jogo jogo)
+        {
+            int indexCliente = this.getCliente().IndexOf(cliente);
+            this.getCliente()[indexCliente].AdicionarJogo(jogo);
+            int indexJogo = this.getEspecificJogoIndice(jogo);
+            this.getJogo()[indexJogo].Compra();
+            int indexDev = this.getDev().IndexOf(jogo.getDev());
+            Movi movi = new Movi(jogo.getValor(), 3, $"+ Venda do Jogo {jogo.getNome()}");
+            this.getDev()[indexDev].AdicionarMovimentacao(movi);
+            this.getDev()[indexDev].adicionarSaldo(jogo.getValor());
+        }
         // (Star) -> Método Especial
         public void IniciarLoja() //inicia o objeto Loja com alguns dados experimentais.
         {
@@ -147,6 +159,10 @@ namespace ArmourGames
             this.adicionarJogo(ea, ts4);
             this.adicionarJogo(ea, nfsR);
             this.adicionarJogo(ea, battlefield1);
+
+            cl1.AdicionarFundos(750);
+            cl2.AdicionarFundos(900);
+            cl3.AdicionarFundos(440);
 
             cl1.AdicionarJogo(battlefield1);
             cl1.AdicionarJogo(gtav);

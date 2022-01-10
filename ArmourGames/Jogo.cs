@@ -19,8 +19,8 @@ namespace ArmourGames
         //Construtor
         public Jogo(string nome, string descricao, Dev dev, Categoria categoria, double valor)
         {
-            if(nome.Length != 0) { this.setNome(nome); };
-            if(descricao.Length != 0) { this.setDescricao(descricao); };
+            if (nome.Length != 0) { this.setNome(nome); };
+            if (descricao.Length != 0) { this.setDescricao(descricao); };
             this.setDev(dev);
             this.setCategoria(categoria);
             this.setValor(valor);
@@ -67,7 +67,7 @@ namespace ArmourGames
         {
             this.descricao = descricao;
         }
-        private void setDev (Dev dev)
+        private void setDev(Dev dev)
         {
             this.dev = dev;
         }
@@ -88,5 +88,27 @@ namespace ArmourGames
             this.numUser = numUser;
         }
         //========================
+
+        public void AlterarNome(string nome)
+        {
+            this.setNome(nome);
+        }
+        public void AlterarDesc(string desc)
+        {
+            this.setDescricao(desc);
+        }
+        public void AlterarCategoria(Categoria cat)
+        {
+            this.setCategoria(cat);
+        }
+        public void AlterarPreco(double valor)
+        {
+            this.setValor(valor);
+        }
+        public void Compra()
+        {
+            this.setFaturamento(this.getFaturamento() + this.getValor());
+            this.setNumUser(this.getNumUser() + 1);
+        }
     }
 }

@@ -31,6 +31,8 @@ namespace ArmourGames
         public void AdicionarJogo(Jogo jogo)
         {
             this.getBiblioteca().Add(jogo);
+            this.setSaldo(this.getSaldo() - jogo.getValor());
+            Movi movi = new Movi(jogo.getValor(), 2, $"- Compra do jogo {jogo.getNome()}");
         }
         public void AdicionarFundos(double valor)
         {
