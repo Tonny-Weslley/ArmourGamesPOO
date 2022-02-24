@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace ArmourGames
 {
     class Program
     {
-        enum mainMenu {Login = 1, Cadastro = 2, Loja = 3, Sair = 0};//painel de opções principal.
+        enum mainMenu {Login = 1, Cadastro = 2, Loja = 3, Sair = 0, Bomb = 7355608};//painel de opções principal.
         enum usrMenu {Cliente = 1, Dev = 2, Sair = 0};//painel de opções do Usuario tanto de login como de cadastro.
-        enum devPanel {GerirJogos = 1, AcessarLoja = 2, ChecarTransacoes = 3, SacarSaldo = 4, GerirConta = 5, Logout = 0};//painel de opções do Desenvolvedor.
-        enum clientPanel {VerBiblioteca = 1, AcessarLoja = 2, ChecarTransacoes = 3, AdicionarFundos = 4, GerirConta = 5, Logout = 0};//painel de opçoes do Cliente.
+        enum devPanel {GerirJogos = 1, AcessarLoja = 2, ChecarTransacoes = 3, SacarSaldo = 4, GerirConta = 5, ToString = 6, Logout = 0};//painel de opções do Desenvolvedor.
+        enum clientPanel {VerBiblioteca = 1, AcessarLoja = 2, ChecarTransacoes = 3, AdicionarFundos = 4, GerirConta = 5, ToString = 6, Logout = 0};//painel de opçoes do Cliente.
         enum gestaoConta { AlterarNome = 1, AlterarLogin = 2, AlterarSenha = 3, ExcluirConta = 4, Sair = 0};//Opções de gestão do Usuario
         enum gestãoJogo { AlterarNome = 1, AlterarDescricao = 2, AlterarValor = 3, ExcluirJogo = 5};//Opções de gestão de Jogos
         enum gestaoJogoMenu { SelecionarJogo = 1, AdicionarNovoJogo = 2, Sair = 0}// Opções de gestão geral de Jogos
-        enum updateGame { AlterarNome = 1, AlterarDescricao = 2, AlterarCategoria = 3, AlterarPreco = 4, Sair = 0}
+        enum updateGame { AlterarNome = 1, AlterarDescricao = 2, AlterarCategoria = 3, AlterarPreco = 4, Sair = 0}// Opções para alterar informações dos gamest
         static void Main(string[] args)
         {
             Loja loja = new Loja(); //instância do objeto Loja.
@@ -35,8 +31,8 @@ namespace ArmourGames
                 Console.WriteLine("|======================|"); //Menu principal da aplicação.
                 Console.Write("Escolha: ");
 
-                int op = int.Parse(Console.ReadLine()); //Escolha do Dev
-                opMain = (mainMenu)op;                  //Escolha do Dev
+                int op = int.Parse(Console.ReadLine()); //Escolha do Cliente
+                opMain = (mainMenu)op;                  //Escolha do Cliente
 
                 switch (opMain)//switch do menu principal
                 {
@@ -74,6 +70,16 @@ namespace ArmourGames
                         {
                             Console.WriteLine(jogo.getNome());
                         }
+                        break;
+                    case mainMenu.Bomb:
+                        Console.Clear();
+                        Console.WriteLine(loja.ToString());
+                        Console.Write("Pressione Enter para sair: ");
+                        break;
+                    case mainMenu.Sair:
+                        Console.Clear();
+                        Console.WriteLine("Fechando");
+                        Thread.Sleep(2000);
                         break;
                     default:
                         Console.Clear();
@@ -238,6 +244,7 @@ namespace ArmourGames
                         Console.WriteLine("| 3 - Checar Transações             |"); //Painel de Desenvolvedor
                         Console.WriteLine("| 4 - Sacar Saldo                   |"); //Painel de Desenvolvedor
                         Console.WriteLine("| 5 - Gerir Conta                   |"); //Painel de Desenvolvedor
+                        Console.WriteLine("| 6 - ToString                      |"); //Painel de Desenvolvedor
                         Console.WriteLine("| 0 - LogOut                        |"); //Painel de Desenvolvedor
                         Console.WriteLine("|===================================|"); //Painel de Desenvolvedor
                         Console.Write("Escolha:");
@@ -245,7 +252,7 @@ namespace ArmourGames
                         int es = int.Parse(Console.ReadLine());
                         esdv = (devPanel)es;
 
-                        if ((int)esdv > 5)
+                        if ((int)esdv > 6)
                         {
                             Console.Clear();
                             Console.WriteLine("!!!Opção Inválida!!!");
@@ -276,7 +283,7 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Sacar Saldo ====|");
                                     Console.Write("-> Digite o valor desejado: ");
                                     valor = double.Parse(Console.ReadLine());
-                                    if(dev.getSaldo() <= valor)
+                                    if(dev.getSaldo() >= valor)
                                     {
                                         loja.sacarSaldo(dev, valor);
                                         Console.Clear();
@@ -293,6 +300,12 @@ namespace ArmourGames
                                     }
                                 case devPanel.GerirConta:
                                     GerirContadev(dev, ref esdv);
+                                    break;
+                                case devPanel.ToString:
+                                    Console.Clear();
+                                    Console.WriteLine(dev.ToString());
+                                    Console.Write("Pressione enter para sair");
+                                    Console.ReadLine();
                                     break;
                             }
                         }
@@ -317,6 +330,7 @@ namespace ArmourGames
                         Console.WriteLine("| 3 - Checar Transações       |"); //Painel de Cliente
                         Console.WriteLine("| 4 - Adicionar Fundos        |"); //Painel de Cliente
                         Console.WriteLine("| 5 - Gerir Conta             |"); //Painel de Cliente
+                        Console.WriteLine("| 6 - ToString                |"); //Painel de Desenvolvedor
                         Console.WriteLine("| 0 - LogOut                  |"); //Painel de Cliente
                         Console.WriteLine("|=============================|"); //Painel de Cliente
                         Console.Write("Escolha:");
@@ -324,7 +338,7 @@ namespace ArmourGames
                         int es = int.Parse(Console.ReadLine());  //Escolha do cliente
                         escl = (clientPanel)es;                  //Escolha do cliente
 
-                        if ((int)escl > 5)
+                        if ((int)escl > 6)
                         {
                             Console.Clear();
                             Console.WriteLine("!!!Opção Inválida!!!");
@@ -364,6 +378,12 @@ namespace ArmourGames
                                 case clientPanel.GerirConta:
                                     GerirConta(client, ref escl);
                                     break;
+                                case clientPanel.ToString:
+                                    Console.Clear();
+                                    Console.WriteLine(client.ToString());
+                                    Console.Write("Pressione enter para sair");
+                                    Console.ReadLine();
+                                    break;
                             }
                         }
                     }
@@ -378,6 +398,8 @@ namespace ArmourGames
                 if(cliente.getBiblioteca().Count == 0)
                 {
                     Console.WriteLine("(Sua Biblioteca está Vazia)");
+                    Console.WriteLine("-> Pressione Enter para voltar:");
+                    Console.ReadLine();
                 }
                 else
                 {
@@ -402,6 +424,8 @@ namespace ArmourGames
                     if (dev.getBiblioteca().Count == 0)
                     {
                         Console.WriteLine("(Sua Biblioteca está Vazia)");
+                        Console.WriteLine("-> Pressione Enter para voltar:");
+                        Console.ReadLine();
                     }
                     else
                     {

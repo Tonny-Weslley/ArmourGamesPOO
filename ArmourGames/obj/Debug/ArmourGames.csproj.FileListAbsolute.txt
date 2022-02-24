@@ -6,3 +6,11 @@ D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.SuggestedBinding
 D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.CoreCompileInputs.cache
 D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.exe
 D:\Code\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.pdb
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\bin\Debug\ArmourGames.exe.config
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\bin\Debug\ArmourGames.exe
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\bin\Debug\ArmourGames.pdb
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.AssemblyReference.cache
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.SuggestedBindingRedirects.cache
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.csproj.CoreCompileInputs.cache
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.exe
+C:\Users\tonny\source\repos\Tonny-Weslley\ArmourGamesPOO\ArmourGames\obj\Debug\ArmourGames.pdb

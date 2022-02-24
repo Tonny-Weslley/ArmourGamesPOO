@@ -30,5 +30,9 @@
         {
             this.descricao = descricao;
         }
+        public override string ToString()
+        {
+            return "A categoria " + this.getNome() + "é atribuida aos titulos que se enquadram na seguinte descriçao" + this.getDescricao();
+        }
     }
 }

@@ -31,7 +31,10 @@ namespace ArmourGames
         {
             return this.descricao;
         }
-
+        public override string ToString()
+        {
+            return "A implementar";
+        }
 
     }
 }

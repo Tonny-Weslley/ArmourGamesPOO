@@ -110,5 +110,9 @@ namespace ArmourGames
             this.setFaturamento(this.getFaturamento() + this.getValor());
             this.setNumUser(this.getNumUser() + 1);
         }
+        public override string ToString()
+        {
+            return "A Implementar";
+        }
     }
 }

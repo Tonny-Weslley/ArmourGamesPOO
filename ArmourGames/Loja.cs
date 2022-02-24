@@ -5,6 +5,7 @@ namespace ArmourGames
     class Loja
     {
         //propriedades
+        //arrays que armazenam os objetos que serão utilizados
         List<Cliente> cliente = new List<Cliente>();
         List<Dev> dev = new List<Dev>();
         List<Jogo> jogo = new List<Jogo>();
@@ -112,9 +113,15 @@ namespace ArmourGames
             int indexJogo = this.getEspecificJogoIndice(jogo);
             this.getJogo()[indexJogo].Compra();
             int indexDev = this.getDev().IndexOf(jogo.getDev());
-            Movi movi = new Movi(jogo.getValor(), 3, $"+ Venda do Jogo {jogo.getNome()}");
-            this.getDev()[indexDev].AdicionarMovimentacao(movi);
+            Movi movidev = new Movi(jogo.getValor(), 3, $"+ Venda do Jogo {jogo.getNome()}");
+            Movi movicli = new Movi(jogo.getValor(), 4, $"- Compra do Jogo {jogo.getNome()}");
+            this.getDev()[indexDev].AdicionarMovimentacao(movidev);
             this.getDev()[indexDev].adicionarSaldo(jogo.getValor());
+            this.getDev()[indexCliente].AdicionarMovimentacao(movicli);
+        }
+        public override string ToString()
+        {
+            return "A ser implementado";
         }
         // (Star) -> Método Especial
         public void IniciarLoja() //inicia o objeto Loja com alguns dados experimentais.

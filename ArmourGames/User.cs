@@ -85,5 +85,22 @@ namespace ArmourGames
         {
             this.getMovimentacoes().Add(movimentacao);
         }
+        public override string ToString()
+        {
+            string jogos = "";
+            if(this.biblioteca.Count() != 0)
+            {
+                foreach (Jogo j in this.biblioteca)
+                {
+                    jogos = jogos + "\n\t" + j.getNome();
+                }
+
+            }
+            else
+            {
+                jogos = "biblioteca vazia";
+            }
+            return "Nome: " + this.getNome() + "\nLogin: " + this.getLogin() + "\nSenha: " + this.getSenha() + "\nPossui os seguintes jogos" + jogos + "\ne seu saldo é de: " + this.getSaldo();
+        }
     }
 }
