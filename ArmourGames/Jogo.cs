@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    class Jogo
+    class Jogo : IComparable , IJogo
     {
         //propriedades do objeto
         string nome, descricao;
@@ -112,7 +112,17 @@ namespace ArmourGames
         }
         public override string ToString()
         {
-            return "A Implementar";
+            return this.getNome() +"\n"+ this.getDescricao() +"\n"+ this.getCategoria() + "\n";
+        }
+
+        public int CompareTo(object obj)
+        {
+            Jogo x = this;
+            Jogo y = (Jogo)obj;
+            if (x.getNome() == y.getNome()) return 0;
+            if (x.getNome().CompareTo(y.getNome()) == -1) return -1;
+            if (x.getNome().CompareTo(y.getNome()) == 1) return 1;
+            return 0;
         }
     }
 }

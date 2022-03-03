@@ -117,11 +117,39 @@ namespace ArmourGames
             Movi movicli = new Movi(jogo.getValor(), 4, $"- Compra do Jogo {jogo.getNome()}");
             this.getDev()[indexDev].AdicionarMovimentacao(movidev);
             this.getDev()[indexDev].adicionarSaldo(jogo.getValor());
-            this.getDev()[indexCliente].AdicionarMovimentacao(movicli);
+            this.getCliente()[indexCliente].AdicionarMovimentacao(movicli);
         }
         public override string ToString()
         {
-            return "A ser implementado";
+            List<Cliente> sortedCli = new List<Cliente>();
+            sortedCli = this.getCliente();
+            sortedCli.Sort();
+            List<Dev> sortedDev = new List<Dev>();
+            sortedDev = this.getDev();
+            sortedDev.Sort();
+            List<Jogo> sortedJogo = new List<Jogo>();
+            sortedJogo = this.getJogo();
+            sortedJogo.Sort();
+            string clientes = "";
+            string devs = "";
+            string jogos = "";
+            
+            foreach (Cliente cliente in sortedCli)
+            {
+                clientes = clientes + "\n" + cliente.getNome() + " - " + cliente.getLogin(); 
+            }
+            foreach (Dev dev in sortedDev)
+            {
+                devs = devs + "\n" + dev.getNome() + " - " + dev.getLogin();
+            }
+            foreach (Jogo jogo in sortedJogo)
+            {
+                jogos = jogos + "\n" + jogo.getNome() + " - " + jogo.getCategoria().getNome();
+            }
+
+            return "THE BOMB HAS BEEN DEFUSED!!!\nLista de Clientes:\n" + clientes + "\n==============\nLista de Devs:\n" + devs + "\n==============\nLista de Jogos:\n" + jogos;
+
+
         }
         // (Star) -> Método Especial
         public void IniciarLoja() //inicia o objeto Loja com alguns dados experimentais.

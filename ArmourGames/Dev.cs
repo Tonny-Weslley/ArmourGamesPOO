@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    class Dev:User
+    class Dev: User, IDev
     {
         //construtor
         public Dev(string nome, string login, string senha)

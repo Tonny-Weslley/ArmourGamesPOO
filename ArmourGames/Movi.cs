@@ -33,7 +33,27 @@ namespace ArmourGames
         }
         public override string ToString()
         {
-            return "A implementar";
+            string ty = "";
+            switch (this.tipo)
+            {
+                case 0:
+                    ty = "Saque de saldo";
+                    break;
+                case 1:
+                    ty = "Adição de fundos";
+                    break;
+                case 2:
+                    ty = "Operação de Loja";
+                    break;
+                case 3:
+                    ty = "Venda de jogo";
+                    break;
+                case 4:
+                    ty = "Compra de jogo";
+                    break;
+            }
+
+            return ty + " no valor de " + this.getValor(); ;
         }
 
     }

@@ -74,7 +74,8 @@ namespace ArmourGames
                     case mainMenu.Bomb:
                         Console.Clear();
                         Console.WriteLine(loja.ToString());
-                        Console.Write("Pressione Enter para sair: ");
+                        Console.Write("-> Pressione Enter para sair: ");
+                        Console.ReadLine();
                         break;
                     case mainMenu.Sair:
                         Console.Clear();

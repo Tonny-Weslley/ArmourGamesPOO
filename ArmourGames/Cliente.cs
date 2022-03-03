@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    class Cliente:User
+    class Cliente : User, ICliente, IComparable<Cliente>
     {
         public Cliente()
         {
@@ -34,7 +34,15 @@ namespace ArmourGames
         {
             this.setSaldo(this.getSaldo() + valor);
         }
-        
 
+        public int CompareTo(Cliente other)
+        {
+            Cliente x = this;
+            Cliente y = (Cliente)other;
+            if (x.getNome() == y.getNome()) return 0;
+            if (x.getNome().CompareTo(y.getNome()) == -1) return -1;
+            if (x.getNome().CompareTo(y.getNome()) == 1) return 1;
+            return 0;
+        }
     }
 }

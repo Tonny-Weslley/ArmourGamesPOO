@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    internal interface User_Interface
+    interface ICliente
     {
+        void AdicionarJogo(Jogo jogo);
+        void AdicionarFundos(double valor);
     }
 }

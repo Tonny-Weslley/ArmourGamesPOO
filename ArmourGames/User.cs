@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ArmourGames
 {
 
     // A Classe User é uma generalização.
-    abstract class User
+    abstract class User : IComparable, IUser
     {
         // definindo as propriedades do Objeto
         string nome, login, senha;
@@ -101,6 +100,16 @@ namespace ArmourGames
                 jogos = "biblioteca vazia";
             }
             return "Nome: " + this.getNome() + "\nLogin: " + this.getLogin() + "\nSenha: " + this.getSenha() + "\nPossui os seguintes jogos" + jogos + "\ne seu saldo é de: " + this.getSaldo();
+        }
+
+        public int CompareTo(object obj)
+        {
+            User x = this;
+            User y = (User)obj;
+            if (x.getNome() == y.getNome()) return 0;
+            if (x.getNome().CompareTo(y.getNome()) == -1) return -1;
+            if (x.getNome().CompareTo(y.getNome()) == 1) return 1;
+            return 0;
         }
     }
 }
