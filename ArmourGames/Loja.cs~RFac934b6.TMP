@@ -1,0 +1,208 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
+
+namespace ArmourGames
+{
+    class Loja
+    {
+        //propriedades
+        //arrays que armazenam os objetos que serão utilizados
+        List<Cliente> cliente = new List<Cliente>();
+        List<Dev> dev = new List<Dev>();
+        List<Jogo> jogo = new List<Jogo>();
+        List<Categoria> categoria = new List<Categoria>();
+
+        //getters
+        public List<Cliente> getCliente()
+        {
+            return this.cliente;
+        }
+        public List<Dev> getDev()
+        {
+            return this.dev;
+        }
+        public List<Jogo> getJogo()
+        {
+            return this.jogo;
+        }
+        public List<Categoria> getCategoria()
+        {
+            return this.categoria;
+        }
+        
+
+        //setters
+        private void setCLiente(List<Cliente> cliente)
+        {
+            this.cliente = cliente;
+        }
+        private void setDev(List<Dev> dev)
+        {
+            this.dev = dev;
+        }
+        private void setJogo(List<Jogo> jogo)
+        {
+            this.jogo = jogo;
+        }
+
+        private void setCategoria(List<Categoria> categoria)
+        {
+            this.categoria = categoria;
+        }
+
+        //Mêtodos
+
+        public void adicionarCliente(Cliente cliente)
+        {
+            this.cliente.Add(cliente);
+        }
+
+        public void adicionarDev(Dev dev)
+        {
+            this.dev.Add(dev);
+        }
+
+        public void adicionarJogo(Dev dev, Jogo jogo)
+        {
+            this.jogo.Add(jogo);
+            dev.AdicionarJogo(jogo);
+        }
+        public void adicionarCategoria(Categoria categoria)
+        {
+            this.categoria.Add(categoria);
+        }
+        public void adicionarFundos(Cliente cliente, double valor)
+        {
+            cliente.AdicionarFundos(valor);
+            Movi movimentacao = new Movi(valor, 1, "+ Adição de Fundos");
+            cliente.AdicionarMovimentacao(movimentacao);
+        }
+
+        public void sacarSaldo(Dev dev, double valor)
+        {
+            int indexDev = this.getDev().IndexOf(dev);
+            this.getDev()[indexDev].adicionarSaldo(valor);
+            Movi movimentacao = new Movi(valor, 0, "- Saque de Saldo");
+            this.getDev()[indexDev].AdicionarMovimentacao(movimentacao);
+
+        }
+        public void excluirCLiente(Cliente cliente)
+        {
+            this.getCliente().Remove(cliente);
+        }
+        public void excluirDev(Dev dev)
+        {
+            this.getDev().Remove(dev);
+        }
+        public Categoria getEspecificCat(int index)
+        {
+            Categoria cat = this.getCategoria()[index];
+            return cat;
+        }
+        public Jogo getEspecificJogo(int i)
+        {
+            return this.getJogo()[i];
+        }
+        public int getEspecificJogoIndice(Jogo jogo)
+        {
+            return this.getJogo().IndexOf(jogo);
+        }
+        public void ComprarJogo(Cliente cliente, Jogo jogo)
+        {
+            int indexCliente = this.getCliente().IndexOf(cliente);
+            this.getCliente()[indexCliente].AdicionarJogo(jogo);
+            int indexJogo = this.getEspecificJogoIndice(jogo);
+            this.getJogo()[indexJogo].Compra();
+            int indexDev = this.getDev().IndexOf(jogo.getDev());
+            Movi movidev = new Movi(jogo.getValor(), 3, $"+ Venda do Jogo {jogo.getNome()}");
+            Movi movicli = new Movi(jogo.getValor(), 4, $"- Compra do Jogo {jogo.getNome()}");
+            this.getDev()[indexDev].AdicionarMovimentacao(movidev);
+            this.getDev()[indexDev].adicionarSaldo(jogo.getValor());
+            this.getCliente()[indexCliente].AdicionarMovimentacao(movicli);
+        }
+        public override string ToString()
+        {
+            List<Cliente> sortedCli = new List<Cliente>();
+            sortedCli = this.getCliente();
+            sortedCli.Sort();
+            List<Dev> sortedDev = new List<Dev>();
+            sortedDev = this.getDev();
+            sortedDev.Sort();
+            List<Jogo> sortedJogo = new List<Jogo>();
+            sortedJogo = this.getJogo();
+            sortedJogo.Sort();
+            string clientes = "";
+            string devs = "";
+            string jogos = "";
+            
+            foreach (Cliente cliente in sortedCli)
+            {
+                clientes = clientes + "\n" + cliente.Nome + " - " + cliente.Login; 
+            }
+            foreach (Dev dev in sortedDev)
+            {
+                devs = devs + "\n" + dev.Nome + " - " + dev.Login;
+            }
+            foreach (Jogo jogo in sortedJogo)
+            {
+                jogos = jogos + "\n" + jogo.getNome() + " - " + jogo.getCategoria().getNome();
+            }
+
+            return "THE BOMB HAS BEEN DEFUSED!!!\nLista de Clientes:\n" + clientes + "\n==============\nLista de Devs:\n" + devs + "\n==============\nLista de Jogos:\n" + jogos;
+
+
+        }
+        public void carregarLoja()
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(List<Cliente>));
+            StreamReader f = new StreamReader("db_clientes.xml");
+            List<Cliente> cli = (List<Cliente>)xml.Deserialize(f);
+            this.setCLiente(cli);
+            f.Close();
+
+            xml = new XmlSerializer(typeof(List<Dev>));
+            f = new StreamReader("db_devs.xml");
+            List<Dev> dev = (List<Dev>)xml.Deserialize(f);
+            this.setDev(dev);
+            f.Close();
+
+            xml = new XmlSerializer(typeof(List<Jogo>));
+            f = new StreamReader("db_games.xml");
+            List<Jogo> games = (List<Jogo>)xml.Deserialize(f);
+            this.setJogo(games);
+            f.Close();
+
+            xml = new XmlSerializer(typeof(List<Categoria>));
+            f = new StreamReader("db_cat.xml");
+            List<Categoria> cat = (List<Categoria>)xml.Deserialize(f);
+            this.setCategoria(cat);
+            f.Close();
+        }
+        public void salvarLoja()
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(List<Cliente>));
+            StreamWriter f = new StreamWriter("db_clientes.xml");
+            xml.Serialize(f, this.getCliente());
+            f.Close();
+
+            xml = new XmlSerializer(typeof(List<Dev>));
+            f = new StreamWriter("db_devs.xml");
+            xml.Serialize(f, this.getDev());
+            f.Close();
+
+            xml = new XmlSerializer(typeof(List<Jogo>));
+            f = new StreamWriter("db_games.xml");
+            xml.Serialize(f, this.getJogo());
+            f.Close();
+
+            xml = new XmlSerializer(typeof(List<Categoria>));
+            f = new StreamWriter("db_cat.xml");
+            xml.Serialize(f, this.getCategoria());
+            f.Close();
+
+
+        }
+    }
+}

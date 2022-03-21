@@ -9,7 +9,6 @@ namespace ArmourGames
     interface IDev
     {
         void sacarSaldo(double valor);
-        void adicionarJogo(Jogo jogo);
         Jogo getEspecificJogo(int i);
         void adicionarSaldo(double valor);
     }

@@ -8,88 +8,57 @@ namespace ArmourGames
 {
 
     // A Classe User é uma generalização.
-    abstract class User : IComparable, IUser
+    public abstract class User : IComparable, IUser
     {
         // definindo as propriedades do Objeto
-        string nome, login, senha;
-        List<Jogo> biblioteca = new List<Jogo>();
-        List<Movi> movimentacoes = new List<Movi>();
-        double saldo;
+        public string Nome { get; set; }
+        public string Login{ get; set; }
+        public string Senha { get; set; }
+        List<Jogo> Biblioteca { get; set; } = new List<Jogo>();
+        List<Movi> Movimentacoes { get; set; } = new List<Movi>();
+        public double Saldo { get; set; }
         //========================
-
-        //getters
-        public string getNome()
-        {
-            return this.nome;
-        }
-        public string getLogin()
-        {
-            return this.login;
-        }
-        public string getSenha()
-        {
-            return this.senha;
-        }
-        public List<Jogo> getBiblioteca()
-        {
-            return this.biblioteca;
-        }
-        public List<Movi> getMovimentacoes()
-        {
-            return this.movimentacoes;
-        }
-        public double getSaldo()
-        {
-            return this.saldo;
-        }
-        //setters
-        protected void setNome(string nome)
-        {
-            this.nome = nome;
-        }
-        protected void setLogin(string login)
-        {
-            this.login = login;
-        }
-        protected void setSenha(string senha)
-        {
-            this.senha = senha;
-        }
-        protected void setBiblioteca(List<Jogo> biblioteca)
-        {
-            this.biblioteca = biblioteca;
-        }
-        protected void setMovimentacoes(List<Movi> movimentacoes)
-        {
-            this.movimentacoes = movimentacoes;
-        }
-        protected void setSaldo(double saldo)
-        {
-            this.saldo = saldo;
-        }
 
         public void AlterarNome(string nome)
         {
-            this.setNome(nome);
+            this.Nome = nome;
         }
         public void AlterarLogin(string login)
         {
-            this.setLogin(login);
+            this.Login = login;
         }
         public void AlterarSenha(string senha)
         {
-            this.setSenha(senha);
+            this.Senha = senha;
         }
         public void AdicionarMovimentacao(Movi movimentacao)
         {
-            this.getMovimentacoes().Add(movimentacao);
+            this.Movimentacoes.Add(movimentacao);
         }
+        public void AdicionarJogo(Jogo jogo)
+        {
+            this.Biblioteca.Add(jogo);
+        }
+        public Jogo getEspecificJogo(int i)
+        {
+            return this.Biblioteca[i];
+        }
+        public List<Movi> retornarMovis()
+        {
+            return this.Movimentacoes;
+        }
+
+        public List<Jogo> retornarBiblioteca()
+        {
+            return this.Biblioteca;
+        }
+
         public override string ToString()
         {
             string jogos = "";
-            if(this.biblioteca.Count() != 0)
+            if(this.Biblioteca.Count() != 0)
             {
-                foreach (Jogo j in this.biblioteca)
+                foreach (Jogo j in this.Biblioteca)
                 {
                     jogos = jogos + "\n\t" + j.getNome();
                 }
@@ -99,16 +68,16 @@ namespace ArmourGames
             {
                 jogos = "biblioteca vazia";
             }
-            return "Nome: " + this.getNome() + "\nLogin: " + this.getLogin() + "\nSenha: " + this.getSenha() + "\nPossui os seguintes jogos" + jogos + "\ne seu saldo é de: " + this.getSaldo();
+            return "Nome: " + this.Nome + "\nLogin: " + this.Login + "\nSenha: " + this.Senha + "\nPossui os seguintes jogos" + jogos + "\ne seu saldo é de: " + this.Saldo;
         }
 
         public int CompareTo(object obj)
         {
             User x = this;
             User y = (User)obj;
-            if (x.getNome() == y.getNome()) return 0;
-            if (x.getNome().CompareTo(y.getNome()) == -1) return -1;
-            if (x.getNome().CompareTo(y.getNome()) == 1) return 1;
+            if (x.Nome == y.Nome) return 0;
+            if (x.Nome.CompareTo(y.Nome) == -1) return -1;
+            if (x.Nome.CompareTo(y.Nome) == 1) return 1;
             return 0;
         }
     }

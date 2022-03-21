@@ -1,10 +1,10 @@
 ﻿namespace ArmourGames
 {
-    class Categoria
+    public class Categoria
     {
         //propriedades do objetos
-        string nome;
-        string descricao;
+        public string Nome { get; set; }
+        public string Descricao { get; set; }  
 
         //Construtor
         public Categoria(string nome, string descricao)
@@ -12,23 +12,27 @@
             this.setNome(nome);
             this.setDescricao(descricao);
         }
+        public Categoria()
+        {
+
+        }
         //getters
         public string getNome()
         {
-            return this.nome;
+            return this.Nome;
         }
         public string getDescricao()
         {
-            return this.descricao;
+            return this.Descricao;
         }
         //setters
         private void setNome(string nome)
         {
-            this.nome = nome;
+            this.Nome = nome;
         }
         private void setDescricao(string descricao)
         {
-            this.descricao = descricao;
+            this.Descricao = descricao;
         }
         public override string ToString()
         {

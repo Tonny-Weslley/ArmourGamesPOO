@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCategoria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Categoria>
+    <Nome>Ação</Nome>
+    <Descricao>Jogos que desafiam a velocidade e reflexo do jogador</Descricao>
+  </Categoria>
+  <Categoria>
+    <Nome>Casual</Nome>
+    <Descricao>Jogos Casuais são jogos mais simples e acessiveis.</Descricao>
+  </Categoria>
+  <Categoria>
+    <Nome>Simulação</Nome>
+    <Descricao>Jogos que imitam uma realidade.</Descricao>
+  </Categoria>
+  <Categoria>
+    <Nome>RPG</Nome>
+    <Descricao>Jogos onde o jogador interpreta um personagem com motivações e desafios.</Descricao>
+  </Categoria>
+  <Categoria>
+    <Nome>Corrida</Nome>
+    <Descricao>Jogos onde carros disputam para ver qual o mais rapido.</Descricao>
+  </Categoria>
+</ArrayOfCategoria>

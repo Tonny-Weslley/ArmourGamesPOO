@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCliente xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cliente>
+    <Nome>Joana</Nome>
+    <Login>jojo</Login>
+    <Senha>123</Senha>
+    <Saldo>440</Saldo>
+  </Cliente>
+  <Cliente>
+    <Nome>João Teste</Nome>
+    <Login>jão</Login>
+    <Senha>123</Senha>
+    <Saldo>750</Saldo>
+  </Cliente>
+  <Cliente>
+    <Nome>Maria Teste</Nome>
+    <Login>may</Login>
+    <Senha>123</Senha>
+    <Saldo>900</Saldo>
+  </Cliente>
+</ArrayOfCliente>

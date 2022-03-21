@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace ArmourGames
 {
-    class Jogo : IComparable , IJogo
+    public class Jogo : IComparable , IJogo
     {
         //propriedades do objeto
-        string nome, descricao;
-        Dev dev;
-        Categoria categoria;
-        double valor, faturamento;
-        int numUser;
+        public string Nome { get; set; }
+        public string Descricao { get; set; }
+        public Dev Dev { get; set; }
+        public Categoria Categoria { get; set; }
+        public double Valor { get; set; }
+        public double Faturamento { get; set; }
+        public int NumUser { get; set; }
         //========================
 
         //Construtor
@@ -28,64 +30,68 @@ namespace ArmourGames
             this.setFaturamento(0);
         }
 
+        public Jogo()
+        {
+
+        }
 
         //getters
         public string getNome()
         {
-            return this.nome;
+            return this.Nome;
         }
         public string getDescricao()
         {
-            return this.descricao;
+            return this.Descricao;
         }
         public Dev getDev()
         {
-            return this.dev;
+            return this.Dev;
         }
         public Categoria getCategoria()
         {
-            return this.categoria;
+            return this.Categoria;
         }
         public double getValor()
         {
-            return this.valor;
+            return this.Valor;
         }
         public double getFaturamento()
         {
-            return this.faturamento;
+            return this.Faturamento;
         }
         public int getNumUser()
         {
-            return this.numUser;
+            return this.NumUser;
         }
         //setters
         private void setNome(string nome)
         {
-            this.nome = nome;
+            this.Nome = nome;
         }
         private void setDescricao(string descricao)
         {
-            this.descricao = descricao;
+            this.Descricao = descricao;
         }
         private void setDev(Dev dev)
         {
-            this.dev = dev;
+            this.Dev = dev;
         }
         private void setCategoria(Categoria categoria)
         {
-            this.categoria = categoria;
+            this.Categoria = categoria;
         }
         private void setValor(double valor)
         {
-            this.valor = valor;
+            this.Valor = valor;
         }
         private void setFaturamento(double faturamento)
         {
-            this.faturamento = faturamento;
+            this.Faturamento = faturamento;
         }
         private void setNumUser(int numUser)
         {
-            this.numUser = numUser;
+            this.NumUser = numUser;
         }
         //========================
 

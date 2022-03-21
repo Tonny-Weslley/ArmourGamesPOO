@@ -18,10 +18,11 @@ namespace ArmourGames
         static void Main(string[] args)
         {
             Loja loja = new Loja(); //instância do objeto Loja.
-            loja.IniciarLoja(); // Inicialização do objeto loja que adiciona alguns jogos e desenvolvedores.
+            loja.carregarLoja(); // Inicialização do objeto loja que adiciona alguns jogos e desenvolvedores.
             mainMenu opMain; //Variavel enum do menu principal.
             do
             {
+
                 Console.Clear();//limpa a exibição do console
                 Console.WriteLine("Bem Vindo a Armour Games");
                 Console.WriteLine("|=========MENU=========|"); //Menu principal da aplicação.
@@ -66,7 +67,7 @@ namespace ArmourGames
                         break;
 
                     case mainMenu.Loja:
-                        foreach(Jogo jogo in loja.getJogo())
+                        foreach (Jogo jogo in loja.getJogo())
                         {
                             Console.WriteLine(jogo.getNome());
                         }
@@ -79,6 +80,7 @@ namespace ArmourGames
                         break;
                     case mainMenu.Sair:
                         Console.Clear();
+                        loja.salvarLoja();
                         Console.WriteLine("Fechando");
                         Thread.Sleep(2000);
                         break;
@@ -88,7 +90,7 @@ namespace ArmourGames
                         Thread.Sleep(2000);
                         break;
                 }
-                   
+
             } while (opMain != mainMenu.Sair);
 
             //Métodos da aplicação
@@ -132,11 +134,13 @@ namespace ArmourGames
                                         Dev dev = new Dev(nome, login, senha);
                                         esc = usrMenu.Sair;
                                         loja.adicionarDev(dev);
+                                        loja.salvarLoja();
                                         DevPanel(dev);
                                         break;
                                     case usrMenu.Cliente:
                                         Cliente cliente = new Cliente(nome, login, senha);
                                         loja.adicionarCliente(cliente);
+                                        loja.salvarLoja();
                                         esc = usrMenu.Sair;
                                         ClientPanel(cliente);
                                         break;
@@ -200,7 +204,7 @@ namespace ArmourGames
                             case usrMenu.Cliente:
                                 foreach(Cliente cliente in loja.getCliente())
                                 {
-                                    if(cliente.getLogin() == login && cliente.getSenha() == senha)
+                                    if(cliente.Login == login && cliente.Senha == senha)
                                     {
                                         pass = true;
                                         t = 0;
@@ -211,7 +215,7 @@ namespace ArmourGames
                             case usrMenu.Dev:
                                 foreach (Dev dev in loja.getDev())
                                 {
-                                    if (dev.getLogin() == login && dev.getSenha() == senha)
+                                    if (dev.Login == login && dev.Senha == senha)
                                     {
                                         pass = true;
                                         t = 1;
@@ -238,7 +242,7 @@ namespace ArmourGames
                     if(esdv != devPanel.Logout)
                     {
                         Console.Clear();
-                        Console.WriteLine($"Olá, {dev.getNome()}    Saldo: {dev.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
+                        Console.WriteLine($"Olá, {dev.Nome}    Saldo: {dev.Saldo.ToString("C", CultureInfo.CurrentCulture)}");
                         Console.WriteLine("|======Painel de Desenvolvedor======|"); //Painel de Desenvolvedor
                         Console.WriteLine("| 1 - Gerir Seus Jogos              |"); //Painel de Desenvolvedor
                         Console.WriteLine("| 2 - Ver Loja                      |"); //Painel de Desenvolvedor
@@ -272,7 +276,7 @@ namespace ArmourGames
                                 case devPanel.ChecarTransacoes:
                                     Console.Clear();
                                     Console.WriteLine("|=== Transações ===|");
-                                    foreach (Movi movi in dev.getMovimentacoes())
+                                    foreach (Movi movi in dev.retornarMovis())
                                     {
                                         Console.WriteLine($"{movi.getDescricao()} : {movi.getValor().ToString("C", CultureInfo.CurrentCulture)}");
                                     }
@@ -284,9 +288,10 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Sacar Saldo ====|");
                                     Console.Write("-> Digite o valor desejado: ");
                                     valor = double.Parse(Console.ReadLine());
-                                    if(dev.getSaldo() >= valor)
+                                    if(dev.Saldo >= valor)
                                     {
                                         loja.sacarSaldo(dev, valor);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Você acabou de sacar {valor.ToString("C", CultureInfo.CurrentCulture)}");
                                         Thread.Sleep(2000);
@@ -324,7 +329,7 @@ namespace ArmourGames
                     if(escl != clientPanel.Logout)
                     {
                         Console.Clear();//limpa a exibição do console
-                        Console.WriteLine($"Olá, {client.getNome()}    Saldo: {client.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
+                        Console.WriteLine($"Olá, {client.Nome}    Saldo: {client.Saldo.ToString("C", CultureInfo.CurrentCulture)}");
                         Console.WriteLine("|======Painel de Cliente======|"); //Painel de Cliente
                         Console.WriteLine("| 1 - Abrir Biblioteca        |"); //Painel de Cliente
                         Console.WriteLine("| 2 - Acessar Loja            |"); //Painel de Cliente
@@ -359,6 +364,7 @@ namespace ArmourGames
                                     Console.Write("-> Digite o valor desejado: ");
                                     valor = double.Parse(Console.ReadLine());
                                     loja.adicionarFundos(client, valor);
+                                    loja.salvarLoja();
                                     Console.Clear();
                                     Console.WriteLine($"{valor.ToString("C", CultureInfo.CurrentCulture)} Adicionados ao seu saldo");
                                     Thread.Sleep(2000);
@@ -369,7 +375,7 @@ namespace ArmourGames
                                 case clientPanel.ChecarTransacoes:
                                     Console.Clear();
                                     Console.WriteLine("|=== Transações ===|");
-                                    foreach (Movi movi in client.getMovimentacoes())
+                                    foreach (Movi movi in client.retornarMovis())
                                     {
                                         Console.WriteLine($"{movi.getDescricao()} : {movi.getValor().ToString("C", CultureInfo.CurrentCulture)}");
                                     }
@@ -395,8 +401,8 @@ namespace ArmourGames
             void BibliotecaCl(Cliente cliente)
             {
                 Console.Clear();
-                Console.WriteLine($"|====Biblioteca de {cliente.getNome()} ====|");
-                if(cliente.getBiblioteca().Count == 0)
+                Console.WriteLine($"|====Biblioteca de {cliente.Nome} ====|");
+                if(cliente.retornarBiblioteca().Count == 0)
                 {
                     Console.WriteLine("(Sua Biblioteca está Vazia)");
                     Console.WriteLine("-> Pressione Enter para voltar:");
@@ -405,7 +411,7 @@ namespace ArmourGames
                 else
                 {
                     int count = 1;
-                    foreach (Jogo jogo in cliente.getBiblioteca())
+                    foreach (Jogo jogo in cliente.retornarBiblioteca())
                     {
                         Console.WriteLine($"{count} - {jogo.getNome()} -    {jogo.getCategoria().getNome()}");
                     }
@@ -420,9 +426,9 @@ namespace ArmourGames
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine($"|=========================Biblioteca de {dev.getNome()}=====================|");
+                    Console.WriteLine($"|=========================Biblioteca de {dev.Nome}=====================|");
                     Console.WriteLine($"|   Index    |      Nome       |    N° de Jogadores |   Valor   |   Renda   |");
-                    if (dev.getBiblioteca().Count == 0)
+                    if (dev.retornarBiblioteca().Count == 0)
                     {
                         Console.WriteLine("(Sua Biblioteca está Vazia)");
                         Console.WriteLine("-> Pressione Enter para voltar:");
@@ -431,7 +437,7 @@ namespace ArmourGames
                     else
                     {
                         int count = 0;
-                        foreach (Jogo jogo in dev.getBiblioteca())
+                        foreach (Jogo jogo in dev.retornarBiblioteca())
                         {
                             Console.WriteLine($"|{count + 1} - {jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getFaturamento().ToString("C", CultureInfo.CurrentCulture)}|");
                             count++;
@@ -466,7 +472,7 @@ namespace ArmourGames
                                 valor = double.Parse(Console.ReadLine());
                                 Console.WriteLine("Escolha uma categoria para o seu jogo:");
                                 int index = 0;
-                                foreach(Categoria categoria in loja.getCataegoria())
+                                foreach(Categoria categoria in loja.getCategoria())
                                 {
                                     Console.WriteLine($"{index + 1} - {categoria.getNome()}");
                                     index++;
@@ -480,7 +486,7 @@ namespace ArmourGames
                                 Console.WriteLine("====Novo Jogo====");
                                 Console.WriteLine($"Nome:\n{j.getNome()}");
                                 Console.WriteLine($"Descrição:\n{j.getDescricao()}");
-                                Console.WriteLine($"Desenvolvedora:\n{j.getDev().getNome()}");
+                                Console.WriteLine($"Desenvolvedora:\n{j.getDev().Nome}");
                                 Console.WriteLine($"Categoria:\n{j.getCategoria().getNome()}");
                                 Console.WriteLine($"Valor: {j.getValor().ToString("C", CultureInfo.CurrentCulture)}");
                                 Console.Write("-> Confirmar publicação \n 1 - sim\n 2 - não\nEscolha: ");
@@ -503,7 +509,7 @@ namespace ArmourGames
                             case gestaoJogoMenu.SelecionarJogo:
                                 Console.Write("Qual o indice do jogo que você quer selecionar: ");
                                 int indice = int.Parse(Console.ReadLine());
-                                if (indice > dev.getBiblioteca().Count)
+                                if (indice > dev.retornarBiblioteca().Count)
                                 {
                                     Console.Clear();
                                     Console.WriteLine("!!!Indice Inexistente!!!");
@@ -537,11 +543,11 @@ namespace ArmourGames
                                                 Console.WriteLine("|==== Alterando Nome ====|");
                                                 Console.Write("-> Confime sua senha: ");
                                                 senha = Console.ReadLine();
-                                                if (senha == dev.getSenha())
+                                                if (senha == dev.Senha)
                                                 {
                                                     Console.Write("-> Novo nome: ");
                                                     newnome = Console.ReadLine();
-                                                    dev.getBiblioteca()[indice - 1].AlterarNome(newnome);
+                                                    dev.retornarBiblioteca()[indice - 1].AlterarNome(newnome);
                                                     loja.getJogo()[indiB].AlterarNome(newnome);
                                                     Console.Clear();
                                                     Console.WriteLine($"Nome alterado para {newnome}");
@@ -559,11 +565,11 @@ namespace ArmourGames
                                                 Console.WriteLine("|==== Alterando descrição ====|");
                                                 Console.Write("-> Confime sua senha: ");
                                                 senha = Console.ReadLine();
-                                                if (senha == dev.getSenha())
+                                                if (senha == dev.Senha)
                                                 {
                                                     Console.Write("-> Nova descrição: ");
                                                     descricao = Console.ReadLine();
-                                                    dev.getBiblioteca()[indice - 1].AlterarDesc(descricao);
+                                                    dev.retornarBiblioteca()[indice - 1].AlterarDesc(descricao);
                                                     loja.getJogo()[indiB].AlterarDesc(descricao);
                                                     Console.Clear();
                                                     Console.WriteLine($"Descrição alterada para: {descricao}");
@@ -581,11 +587,11 @@ namespace ArmourGames
                                                 Console.WriteLine("|==== Alterando preço ====|");
                                                 Console.Write("-> Confime sua senha: ");
                                                 senha = Console.ReadLine();
-                                                if (senha == dev.getSenha())
+                                                if (senha == dev.Senha)
                                                 {
                                                     Console.Write("-> Novo Preço: ");
                                                     preco = double.Parse(Console.ReadLine());
-                                                    dev.getBiblioteca()[indice - 1].AlterarPreco(preco);
+                                                    dev.retornarBiblioteca()[indice - 1].AlterarPreco(preco);
                                                     loja.getJogo()[indiB].AlterarPreco(preco);
                                                     Console.Clear();
                                                     Console.WriteLine($"Preço alterado para {preco.ToString("C", CultureInfo.CurrentCulture)}");
@@ -603,18 +609,18 @@ namespace ArmourGames
                                                 Console.WriteLine("|==== Alterando Categoria ====|");
                                                 Console.Write("-> Confime sua senha: ");
                                                 senha = Console.ReadLine();
-                                                if (senha == dev.getSenha())
+                                                if (senha == dev.Senha)
                                                 {
                                                     Console.WriteLine("Escolha uma nova categoria para o seu jogo:");
                                                     index = 0;
-                                                    foreach (Categoria categoria in loja.getCataegoria())
+                                                    foreach (Categoria categoria in loja.getCategoria())
                                                     {
                                                         Console.WriteLine($"{index + 1} - {categoria.getNome()}");
                                                     }
                                                     Console.Write("Escolha: ");
                                                     int ind = int.Parse(Console.ReadLine());
                                                     newcategoria = loja.getEspecificCat(ind - 1);
-                                                    dev.getBiblioteca()[indice - 1].AlterarCategoria(newcategoria);
+                                                    dev.retornarBiblioteca()[indice - 1].AlterarCategoria(newcategoria);
                                                     loja.getJogo()[indiB].AlterarCategoria(newcategoria);
                                                     Console.Clear();
                                                     Console.WriteLine($"Categoria alterada para {newcategoria.getNome()}");
@@ -681,11 +687,12 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Alterando Nome ====|");
                                     Console.Write("-> Confime sua senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == cliente.getSenha())
+                                    if (senha == cliente.Senha)
                                     {
                                         Console.Write("-> Digite seu novo nome: ");
                                         nome = Console.ReadLine();
                                         cliente.AlterarNome(nome);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Seu nome foi alterado para {nome}");
                                         Thread.Sleep(2000);
@@ -703,11 +710,12 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Alterando Nome de Usuário ====|");
                                     Console.Write("-> Confime sua senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == cliente.getSenha())
+                                    if (senha == cliente.Senha)
                                     {
                                         Console.Write("-> Digite seu novo nome de usuário: ");
                                         login = Console.ReadLine();
                                         cliente.AlterarLogin(login);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Seu nome foi alterado para {login}");
                                         Thread.Sleep(2000);
@@ -725,11 +733,12 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Alterando Senha ====|");
                                     Console.Write("-> Confime sua antiga senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == cliente.getSenha())
+                                    if (senha == cliente.Senha)
                                     {
                                         Console.Write("-> Digite sua nova senha: ");
                                         senha = Console.ReadLine();
                                         cliente.AlterarSenha(senha);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Seu nome foi alterado para {senha}");
                                         Thread.Sleep(2000);
@@ -747,7 +756,7 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Excluindo Conta ====|");
                                     Console.Write("-> Confime sua senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == cliente.getSenha())
+                                    if (senha == cliente.Senha)
                                     {
                                         int esx = 20;
                                         do
@@ -766,6 +775,7 @@ namespace ArmourGames
                                                             Console.Clear();
                                                             Console.WriteLine("Apagando dos Registros :(");
                                                             loja.excluirCLiente(cliente);
+                                                            loja.salvarLoja();
                                                             slg = gestaoConta.Sair;
                                                             scl = clientPanel.Logout;
                                                             esx = 0;
@@ -840,11 +850,12 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Alterando Nome ====|");
                                     Console.Write("-> Confime sua senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == dev.getSenha())
+                                    if (senha == dev.Senha)
                                     {
                                         Console.Write("-> Digite seu novo nome: ");
                                         nome = Console.ReadLine();
                                         dev.AlterarNome(nome);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Seu nome foi alterado para {nome}");
                                         Thread.Sleep(2000);
@@ -862,11 +873,12 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Alterando Nome de Usuário ====|");
                                     Console.Write("-> Confime sua senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == dev.getSenha())
+                                    if (senha == dev.Senha)
                                     {
                                         Console.Write("-> Digite seu novo nome de usuário: ");
                                         login = Console.ReadLine();
                                         dev.AlterarLogin(login);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Seu nome foi alterado para {login}");
                                         Thread.Sleep(2000);
@@ -884,11 +896,12 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Alterando Senha ====|");
                                     Console.Write("-> Confime sua antiga senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == dev.getSenha())
+                                    if (senha == dev.Senha)
                                     {
                                         Console.Write("-> Digite sua nova senha: ");
                                         senha = Console.ReadLine();
                                         dev.AlterarSenha(senha);
+                                        loja.salvarLoja();
                                         Console.Clear();
                                         Console.WriteLine($"Seu nome foi alterado para {senha}");
                                         Thread.Sleep(2000);
@@ -906,7 +919,7 @@ namespace ArmourGames
                                     Console.WriteLine("|==== Excluindo Conta ====|");
                                     Console.Write("-> Confime sua senha: ");
                                     senha = Console.ReadLine();
-                                    if (senha == dev.getSenha())
+                                    if (senha == dev.Senha)
                                     {
                                         int esx = 20;
                                         do
@@ -922,7 +935,7 @@ namespace ArmourGames
                                                     switch (esx)
                                                     {
                                                         case 1:
-                                                            if(dev.getBiblioteca().Count > 0)
+                                                            if(dev.retornarBiblioteca().Count > 0)
                                                             {
                                                                 Console.WriteLine("Você Possui Jogos a Venda, Contate o Administrador da plataforma");
                                                                 Thread.Sleep(2000);
@@ -934,6 +947,7 @@ namespace ArmourGames
                                                                 Console.Clear();
                                                                 Console.WriteLine("Apagando dos Registros :(");
                                                                 loja.excluirDev(dev);
+                                                                loja.salvarLoja();
                                                                 slg = gestaoConta.Sair;
                                                                 scl = devPanel.Logout;
                                                                 esx = 0;
@@ -1002,7 +1016,7 @@ namespace ArmourGames
                         Jogo jogo = loja.getEspecificJogo(indice - 1);
                         Console.Clear();
                         Console.WriteLine($"|      Nome       |    N° de Jogadores |   Valor   |   Desenvolvedor   |");
-                        Console.WriteLine($"|{jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getDev().getNome()}|");
+                        Console.WriteLine($"|{jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getDev().Nome}|");
                         Console.WriteLine("Pressione Enter Para voltar");
                         Console.ReadLine();
                     }
@@ -1044,7 +1058,7 @@ namespace ArmourGames
                                 Console.Clear();
                                 Jogo jogo = loja.getEspecificJogo(indice - 1);
                                 Console.WriteLine($"|      Nome       |    N° de Jogadores |   Valor   |   Desenvolvedor   |");
-                                Console.WriteLine($"|{jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getDev().getNome()}|");
+                                Console.WriteLine($"|{jogo.getNome()} - {jogo.getNumUser()} - {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)} - {jogo.getDev().Nome}|");
                                 Console.WriteLine("Selecione uma opção:\n1 - Comprar\n0 - voltar");
                                 Console.Write("Selecione: ");
                                 op = int.Parse(Console.ReadLine());
@@ -1058,7 +1072,7 @@ namespace ArmourGames
                                 {
                                     if (op != 0)
                                     {
-                                        if (cliente.getSaldo() < jogo.getValor())
+                                        if (cliente.Saldo < jogo.getValor())
                                         {
                                             Console.Clear();
                                             Console.WriteLine("Saldo insuficiente, adicione fundos a sua carteira");
@@ -1068,14 +1082,15 @@ namespace ArmourGames
                                         {
                                             Console.Clear();
                                             Console.WriteLine("|=== Compra de Jogo ===|");
-                                            Console.WriteLine($"Saldo atual: {cliente.getSaldo().ToString("C", CultureInfo.CurrentCulture)}");
+                                            Console.WriteLine($"Saldo atual: {cliente.Saldo.ToString("C", CultureInfo.CurrentCulture)}");
                                             Console.WriteLine($"Valor do jogo: {jogo.getValor().ToString("C", CultureInfo.CurrentCulture)}");
-                                            Console.WriteLine($"Saldo restante: {(cliente.getSaldo() - jogo.getValor()).ToString("C", CultureInfo.CurrentCulture)}");
+                                            Console.WriteLine($"Saldo restante: {(cliente.Saldo - jogo.getValor()).ToString("C", CultureInfo.CurrentCulture)}");
                                             Console.Write("-> Confirmar compra: \n 1 - sim\n 2 - não\nEscolha: ");
                                             int confirma = int.Parse(Console.ReadLine());
                                             if (confirma == 1)
                                             {
                                                 loja.ComprarJogo(cliente, jogo);
+                                                loja.salvarLoja();
                                                 Console.Clear();
                                                 Console.WriteLine("Jogo Adicionado a sua Biblioteca");
                                                 Thread.Sleep(2000);

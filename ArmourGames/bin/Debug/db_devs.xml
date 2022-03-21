@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDev xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Dev>
+    <Nome>NaughtyDog</Nome>
+    <Login>NG</Login>
+    <Senha>dev123</Senha>
+    <Saldo>210.28</Saldo>
+  </Dev>
+  <Dev>
+    <Nome>Origin</Nome>
+    <Login>OG</Login>
+    <Senha>dev789</Senha>
+    <Saldo>345.87</Saldo>
+  </Dev>
+  <Dev>
+    <Nome>Rockstar</Nome>
+    <Login>RS</Login>
+    <Senha>dev456</Senha>
+    <Saldo>99.99</Saldo>
+  </Dev>
+</ArrayOfDev>

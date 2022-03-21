@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace ArmourGames
 {
@@ -24,7 +27,7 @@ namespace ArmourGames
         {
             return this.jogo;
         }
-        public List<Categoria> getCataegoria()
+        public List<Categoria> getCategoria()
         {
             return this.categoria;
         }
@@ -64,7 +67,7 @@ namespace ArmourGames
         public void adicionarJogo(Dev dev, Jogo jogo)
         {
             this.jogo.Add(jogo);
-            dev.adicionarJogo(jogo);
+            dev.AdicionarJogo(jogo);
         }
         public void adicionarCategoria(Categoria categoria)
         {
@@ -95,7 +98,7 @@ namespace ArmourGames
         }
         public Categoria getEspecificCat(int index)
         {
-            Categoria cat = this.getCataegoria()[index];
+            Categoria cat = this.getCategoria()[index];
             return cat;
         }
         public Jogo getEspecificJogo(int i)
@@ -121,6 +124,8 @@ namespace ArmourGames
         }
         public override string ToString()
         {
+
+            IEnumerable<string> s = this.getCliente().Select(c => c.Nome);
             List<Cliente> sortedCli = new List<Cliente>();
             sortedCli = this.getCliente();
             sortedCli.Sort();
@@ -134,13 +139,13 @@ namespace ArmourGames
             string devs = "";
             string jogos = "";
             
-            foreach (Cliente cliente in sortedCli)
+            foreach (string cliente in s)
             {
-                clientes = clientes + "\n" + cliente.getNome() + " - " + cliente.getLogin(); 
+                clientes = clientes + "\n" + cliente; 
             }
             foreach (Dev dev in sortedDev)
             {
-                devs = devs + "\n" + dev.getNome() + " - " + dev.getLogin();
+                devs = devs + "\n" + dev.Nome + " - " + dev.Login;
             }
             foreach (Jogo jogo in sortedJogo)
             {
@@ -151,66 +156,55 @@ namespace ArmourGames
 
 
         }
-        // (Star) -> Método Especial
-        public void IniciarLoja() //inicia o objeto Loja com alguns dados experimentais.
+        public void carregarLoja()
         {
-            Categoria action = new Categoria("Ação", "Jogos que desafiam a velocidade e reflexo do jogador");
-            Categoria casual = new Categoria("Casual", "Jogos Casuais são jogos mais simples e acessiveis.");
-            Categoria simulation = new Categoria("Simulação", "Jogos que imitam uma realidade.");
-            Categoria rpg = new Categoria("RPG", "Jogos onde o jogador interpreta um personagem com motivações e desafios.");
-            Categoria race = new Categoria("Corrida", "Jogos onde carros disputam para ver qual o mais rapido.");
-            Dev naughyDog = new Dev("NaughtyDog", "NG", "dev123");
-            Dev rockstar = new Dev("Rockstar", "RS", "dev456");
-            Dev ea = new Dev("Origin", "OG", "dev789");
-            Jogo thelastofus = new Jogo("The Last of Us", "Ellie e Joel entram em uma jornada em busca do laboratorio dos vaga-lumes, porém com muitos infectados no camianho", naughyDog, action, 99.50);
-            Jogo uncharted = new Jogo("Uncharted: The Nathan Drake Collection", "Nesse pacote, podemos encontrar os títulos: UNCHARTED: Drake’s Fortune, UNCHARTED 2: Among Thieves e UNCHARTED 3: Drake’s Deception.", naughyDog, action, 79.90);
-            Jogo crashTB = new Jogo("Crash, the Bandicoot 4", "4° título da serie da raposa e seu arqui-rival, dr cortex", naughyDog, casual, 30.88);
-            Jogo gtav = new Jogo("GTA V", "5° título da serie GTA, nesse jogo, encarne 3 diferentes personagens e se divirta com outros player no modo online.", rockstar, rpg, 99.99);
-            Jogo rdr2 = new Jogo("Red Dead Redemption", "O Faroeste voltou, e agora em mundo aberto e online", rockstar, rpg, 149.90);
-            Jogo bully = new Jogo("Bully", "Mesmo sendo proibído em vários paises, Bully carrega uma legião de fãs e ainda é um dos jogos mais jogados da rockstar", rockstar, rpg, 99.99);
-            Jogo ts4 = new Jogo("The Sims 4", "Jogue em um mundo seu, num jogo de simulação altamente imerssivo (e com dlcs muito caras).", ea, simulation, 120);
-            Jogo nfsR = new Jogo("Need for Speed Rivals", "Jogo de carro, igual todos os outros Need for Speeds, corra de carro numa cidade, aposte racha e magicamente tenha seu carro consertado passando por um posto de gasolina", ea, race, 110);
-            Jogo battlefield1 = new Jogo("Battlefield 1","Volte para os tempos de primeira guerra mundial, curta um multiplayer imersivo de time contra time e tente levar o seu a vitoria.", ea, action, 225.87);
-            Cliente cl1 = new Cliente("João Teste", "jão", "123");
-            Cliente cl2 = new Cliente("Maria Teste", "may", "123");
-            Cliente cl3 = new Cliente("Joana Teste", "jojo", "123");
+            XmlSerializer xml = new XmlSerializer(typeof(List<Cliente>));
+            StreamReader f = new StreamReader("db_clientes.xml");
+            List<Cliente> cli = (List<Cliente>)xml.Deserialize(f);
+            this.setCLiente(cli);
+            f.Close();
 
-            this.adicionarCategoria(action);
-            this.adicionarCategoria(casual);
-            this.adicionarCategoria(simulation);
-            this.adicionarCategoria(rpg);
-            this.adicionarCategoria(race);
+            xml = new XmlSerializer(typeof(List<Dev>));
+            f = new StreamReader("db_devs.xml");
+            List<Dev> dev = (List<Dev>)xml.Deserialize(f);
+            this.setDev(dev);
+            f.Close();
 
-            this.adicionarDev(naughyDog);
-            this.adicionarDev(rockstar);
-            this.adicionarDev(ea);
+            xml = new XmlSerializer(typeof(List<Jogo>));
+            f = new StreamReader("db_games.xml");
+            List<Jogo> games = (List<Jogo>)xml.Deserialize(f);
+            this.setJogo(games);
+            f.Close();
 
-            this.adicionarJogo(naughyDog, thelastofus);
-            this.adicionarJogo(naughyDog, uncharted);
-            this.adicionarJogo(naughyDog, crashTB);
-            this.adicionarJogo(rockstar, gtav);
-            this.adicionarJogo(rockstar, rdr2);
-            this.adicionarJogo(rockstar, bully);
-            this.adicionarJogo(ea, ts4);
-            this.adicionarJogo(ea, nfsR);
-            this.adicionarJogo(ea, battlefield1);
+            xml = new XmlSerializer(typeof(List<Categoria>));
+            f = new StreamReader("db_cat.xml");
+            List<Categoria> cat = (List<Categoria>)xml.Deserialize(f);
+            this.setCategoria(cat);
+            f.Close();
+        }
+        public void salvarLoja()
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(List<Cliente>));
+            StreamWriter f = new StreamWriter("db_clientes.xml");
+            xml.Serialize(f, this.getCliente());
+            f.Close();
 
-            this.adicionarCliente(cl1);
-            this.adicionarCliente(cl2);
-            this.adicionarCliente(cl3);
+            xml = new XmlSerializer(typeof(List<Dev>));
+            f = new StreamWriter("db_devs.xml");
+            xml.Serialize(f, this.getDev());
+            f.Close();
 
-            cl1.AdicionarFundos(750);
-            cl2.AdicionarFundos(900);
-            cl3.AdicionarFundos(440);
+            xml = new XmlSerializer(typeof(List<Jogo>));
+            f = new StreamWriter("db_games.xml");
+            xml.Serialize(f, this.getJogo());
+            f.Close();
 
-            this.ComprarJogo(cl1, battlefield1);
-            this.ComprarJogo(cl1, gtav);
-            this.ComprarJogo(cl2, ts4);
-            this.ComprarJogo(cl2, crashTB);
-            this.ComprarJogo(cl3, thelastofus);
-            this.ComprarJogo(cl3, uncharted);
+            xml = new XmlSerializer(typeof(List<Categoria>));
+            f = new StreamWriter("db_cat.xml");
+            xml.Serialize(f, this.getCategoria());
+            f.Close();
 
-            
+
         }
     }
 }

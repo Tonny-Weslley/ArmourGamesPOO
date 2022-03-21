@@ -8,7 +8,6 @@ namespace ArmourGames
 {
     interface ICliente
     {
-        void AdicionarJogo(Jogo jogo);
         void AdicionarFundos(double valor);
     }
 }

@@ -8,33 +8,36 @@ using System.Threading.Tasks;
 namespace ArmourGames
 {
     //a moivimentação é uma transação financeira entre o Cliente e a loja e entre a loja e o dev.
-    class Movi
+    public class Movi
     {
-        double valor;
-        int tipo;
-        string descricao;
+        public double Valor { get; set; }
+        public int Tipo { get; set; }
+        public string Descricao { get; set; }
         //métodos
 
         //construtor
         public Movi(double valor, int tipo, string desc)
         {
-            this.valor = valor;
-            this.tipo = tipo;
-            this.descricao = desc; 
+            this.Valor = valor;
+            this.Tipo = tipo;
+            this.Descricao = desc; 
         }
+        public Movi()
+        {
 
+        }
         public double getValor()
         {
-            return this.valor;
+            return this.Valor;
         }
         public string getDescricao()
         {
-            return this.descricao;
+            return this.Descricao;
         }
         public override string ToString()
         {
             string ty = "";
-            switch (this.tipo)
+            switch (this.Tipo)
             {
                 case 0:
                     ty = "Saque de saldo";
